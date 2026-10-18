@@ -69,6 +69,13 @@ def validate_repository(root):
             raise ValueError('missing or stale validation evidence: ' + recipe['slug'])
         if recipe['execution']['status'] != 'verified_local' or execution['execution_status'] != 'succeeded' or execution['spec_file_sha256'] != digest:
             raise ValueError('missing or stale execution evidence: ' + recipe['slug'])
+        fixture_dir = Path(recipe['spec']).parent / 'fixtures'
+        required_hashes = {path for path in recipe['assets'] if Path(path).is_relative_to(fixture_dir)}
+        required_hashes.update(operation['statement'] for operation in recipe.get('operations', []))
+        required_hashes.update(recipe['setup_assets'])
+        required_hashes.add(recipe['expected'])
+        if not required_hashes.issubset(execution['qualification_asset_hashes']):
+            raise ValueError('missing qualification input hashes: ' + recipe['slug'])
         for path, expected_hash in execution['qualification_asset_hashes'].items():
             if hashlib.sha256(asset(root, path).read_bytes()).hexdigest() != expected_hash:
                 raise ValueError('stale execution input/expected evidence: ' + path)

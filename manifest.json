@@ -48,7 +48,8 @@
           "statement": "recipes/http-customer-enrichment/operations/write.statement.json"
         }
       ],
-      "docs": "recipes/http-customer-enrichment/README.md"
+      "docs": "recipes/http-customer-enrichment/README.md",
+      "setup_assets": []
     },
     {
       "slug": "settlement-ledger-reconciliation",
@@ -93,7 +94,10 @@
           "statement": "recipes/settlement-ledger-reconciliation/operations/write.statement.json"
         }
       ],
-      "docs": "recipes/settlement-ledger-reconciliation/README.md"
+      "docs": "recipes/settlement-ledger-reconciliation/README.md",
+      "setup_assets": [
+        "recipes/settlement-ledger-reconciliation/bigquery-schema.json"
+      ]
     },
     {
       "slug": "spreadsheet-contact-overrides",
@@ -138,7 +142,8 @@
           "statement": "recipes/spreadsheet-contact-overrides/operations/write.statement.json"
         }
       ],
-      "docs": "recipes/spreadsheet-contact-overrides/README.md"
+      "docs": "recipes/spreadsheet-contact-overrides/README.md",
+      "setup_assets": []
     },
     {
       "slug": "document-inventory-projection",
@@ -174,7 +179,10 @@
         "recipes/document-inventory-projection/validation.json"
       ],
       "operations": [],
-      "docs": "recipes/document-inventory-projection/README.md"
+      "docs": "recipes/document-inventory-projection/README.md",
+      "setup_assets": [
+        "recipes/document-inventory-projection/mysql-target.sql"
+      ]
     },
     {
       "slug": "opaque-file-archive",
@@ -216,7 +224,8 @@
           "statement": "recipes/opaque-file-archive/operations/write.statement.json"
         }
       ],
-      "docs": "recipes/opaque-file-archive/README.md"
+      "docs": "recipes/opaque-file-archive/README.md",
+      "setup_assets": []
     }
   ],
   "public_cli": {

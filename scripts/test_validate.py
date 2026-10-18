@@ -50,6 +50,20 @@ class IntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'stale execution input/expected evidence'):
             validate.validate_repository(self.root)
 
+    def test_missing_qualification_hash_is_rejected(self):
+        for recipe in self.manifest()['recipes']:
+            evidence = self.root / recipe['execution']['evidence']
+            original = evidence.read_text()
+            data = json.loads(original)
+            hashes = data['qualification_asset_hashes']
+            for omitted in [None, *hashes]:
+                with self.subTest(recipe=recipe['slug'], omitted=omitted):
+                    data['qualification_asset_hashes'] = {} if omitted is None else {k: v for k, v in hashes.items() if k != omitted}
+                    evidence.write_text(json.dumps(data))
+                    with self.assertRaisesRegex(ValueError, 'missing qualification input hashes'):
+                        validate.validate_repository(self.root)
+                evidence.write_text(original)
+
     def test_incomplete_run_cannot_claim_execution(self):
         recipe = self.manifest()['recipes'][0]
         evidence = self.root / recipe['execution']['evidence']
