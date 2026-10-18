@@ -14,6 +14,16 @@ psql 'service=recipe-source' -v ON_ERROR_STOP=1 -f recipes/http-customer-enrichm
 
 The PostgreSQL service profile and password file belong outside this repository. Create an isolated S3 bucket/prefix with write access to `recipes/enriched-orders.json`; the connection prefix is prepended to that key. Use [HTTP](../../connections/http.template.json), [PostgreSQL](../../connections/postgres.template.json), and [S3 destination](../../connections/s3-destination.template.json) templates. Export their created slugs as `RECIPE_HTTP_SOURCE`, `RECIPE_PG_SOURCE`, and `RECIPE_OBJECT_DEST`.
 
+For a self-hosted qualification worker that can reach this machine, serve only the canonical synthetic routes in another terminal:
+
+```sh
+export RECIPE_HTTP_BIND='<interface-address-reachable-by-your-worker>'
+export RECIPE_HTTP_PORT='<available-port>'
+python3 scripts/serve_http_fixtures.py --bind "$RECIPE_HTTP_BIND" --port "$RECIPE_HTTP_PORT"
+```
+
+Set the HTTP connection base_url to that server and health_check_path to /health. This is an unauthenticated test-only HTTP fixture, not an Internet deployment. For hosted execution, use your authorized reachable HTTPS fixture host with the same routes, bytes and content types. Stop the local fixture with Ctrl-C after the exercise.
+
 ## Operations and logical bindings
 
 Create the exact saved operation on its destination before validation:

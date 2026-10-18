@@ -27,6 +27,7 @@ def validate_repository(root):
     manifest = load(root, 'manifest.json')
     if manifest['schema_version'] != 1:
         raise ValueError('unsupported manifest schema version')
+    asset(root, manifest['fixture_server'])
     for path in manifest.get('shared_assets', []):
         load(root, path)
     recipes = manifest['recipes']

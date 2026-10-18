@@ -10,6 +10,16 @@ Serve [fixtures/receipt.bin](fixtures/receipt.bin) from `/receipt.bin` on a synt
 
 Do not replace binary bytes with a JSON base64 wrapper or label arbitrary JSON as a file. A local fixture server on your laptop is not reachable from hosted workers. The explicit non-production provider must serve the canonical bytes; no customer file is needed.
 
+For a self-hosted qualification worker that can reach this machine, serve only the canonical synthetic routes in another terminal:
+
+```sh
+export RECIPE_HTTP_BIND='<interface-address-reachable-by-your-worker>'
+export RECIPE_HTTP_PORT='<available-port>'
+python3 scripts/serve_http_fixtures.py --bind "$RECIPE_HTTP_BIND" --port "$RECIPE_HTTP_PORT"
+```
+
+Set the HTTP connection base_url to that server and health_check_path to /health. This is an unauthenticated test-only HTTP fixture, not an Internet deployment. For hosted execution, use your authorized reachable HTTPS fixture host with the same routes, bytes and content types. Stop the local fixture with Ctrl-C after the exercise.
+
 ## Operations and logical bindings
 
 Create the exact saved operation on its destination before validation:

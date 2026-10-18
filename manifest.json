@@ -241,5 +241,6 @@
     "connections/postgres.template.json",
     "connections/s3-destination.template.json",
     "connections/s3-source.template.json"
-  ]
+  ],
+  "fixture_server": "scripts/serve_http_fixtures.py"
 }
