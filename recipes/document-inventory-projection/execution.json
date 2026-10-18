@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T18:41:27.303614+02:00",
+  "execution_status": "succeeded",
+  "scope": "Controlled isolated non-production local execution",
+  "provider_boundary": "Local MongoDB and MySQL containers",
+  "runtime_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_file_sha256": "44c33f350459f3a422e78803244102da8fbc6dead662f689c0acf08df5bc0311",
+  "pipeline_slug": "document-inventory-projection",
+  "run_slug": "bp1207-inventory-01",
+  "executed_spec_hash": "7fe6878f9af77135597e98b59f976d87b092c0a6825960866b4cf8390befc106",
+  "events": [
+    {
+      "at": "2026-10-18T18:41:26.744935+02:00",
+      "type": "run_started",
+      "step": null,
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:26.747636+02:00",
+      "type": "step_started",
+      "step": "read-inventory",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:26.806582+02:00",
+      "type": "step_succeeded",
+      "step": "read-inventory",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:26.806606+02:00",
+      "type": "step_started",
+      "step": "project-inventory",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:27.115669+02:00",
+      "type": "step_succeeded",
+      "step": "project-inventory",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:27.115678+02:00",
+      "type": "step_started",
+      "step": "write-inventory",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:27.30361+02:00",
+      "type": "step_succeeded",
+      "step": "write-inventory",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:27.303614+02:00",
+      "type": "run_completed",
+      "step": null,
+      "status": "succeeded"
+    }
+  ],
+  "steps": [
+    {
+      "step": "read-inventory",
+      "kind": "query",
+      "result_type": "MongoDB",
+      "vendor_type": "mongodb",
+      "observed_metadata": {
+        "kind": "documents"
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "project-inventory",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "sku",
+          "quantity"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "write-inventory",
+      "kind": "sink",
+      "result_type": "SQL",
+      "vendor_type": "mysql",
+      "observed_metadata": {
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Independent destination read, normalized and compared with expected.json",
+    "expected_output_match": true,
+    "row_count": 2,
+    "normalized_output_sha256": "b3747e694c2243cbec710f5ec6e281c5159a5e32c17db6d72b2b953f060f9ff1"
+  },
+  "limits": [
+    "No production readiness or cloud-provider acceptance claim",
+    "Run success, declared contracts, static Proof and destination effects are separate evidence",
+    "No retained payload inspection, artifact handoff, implicit trigger or universal replay guarantee"
+  ],
+  "qualification_asset_hashes": {
+    "recipes/document-inventory-projection/expected.json": "8c878c55655a7339774d595369e08af9df01864faeb032d303e72db0e57372e1",
+    "recipes/document-inventory-projection/fixtures/inventory.json": "f4486aa614a450efd8558bcf3255fe2200f032956f775ff6fed57ff3dab49b30",
+    "recipes/document-inventory-projection/mysql-target.sql": "72d7234c4e438c304e089e0ea6f073d30ab0c21a6b49ce956ab944d682a92643"
+  },
+  "identity_limit": "Asset hashes record the qualification setup files; they are not persisted immutable saved-operation or provider-binding snapshots inside this runtime run."
+}

@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "slug": "document-inventory-projection",
+    "name": "Project MongoDB inventory documents into a MySQL reporting table"
+  },
+  "steps": [
+    {
+      "kind": "query",
+      "slug": "read-inventory",
+      "query": {
+        "data_source_ref": "inventory-documents",
+        "operation_type": "mongodb",
+        "operation_inline": {
+          "collection": "recipe_inventory",
+          "operation": "find",
+          "filter": {
+            "recipe": "bp-1207"
+          },
+          "projection": {
+            "_id": 0,
+            "sku": 1,
+            "quantity": 1
+          },
+          "sort": {
+            "sku": 1
+          }
+        },
+        "output_contract": {
+          "representation": "json",
+          "root_shape": "array",
+          "fields": [
+            {
+              "name": "sku",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "quantity",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "project-inventory",
+      "transform": {
+        "inputs": {
+          "inventory": "read-inventory"
+        },
+        "sql": "SELECT sku, quantity FROM inventory WHERE quantity >= 0 ORDER BY sku",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "sku",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "quantity",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "write-inventory",
+      "sink": {
+        "input": "project-inventory",
+        "data_source_ref": "inventory-reporting",
+        "operation_type": "sql",
+        "operation_inline": {
+          "sql": "INSERT INTO recipe_inventory_report (sku, quantity) SELECT sku, quantity FROM input ON DUPLICATE KEY UPDATE quantity = VALUES(quantity)"
+        },
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "sku",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "quantity",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        },
+        "idempotency_class": "deduplicated_by_ledger"
+      }
+    }
+  ]
+}

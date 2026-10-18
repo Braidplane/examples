@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T18:41:09.437726+02:00",
+  "execution_status": "succeeded",
+  "scope": "Controlled isolated non-production local execution",
+  "provider_boundary": "Local synthetic HTTP provider and SeaweedFS S3-compatible storage",
+  "runtime_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_file_sha256": "227dcb50508263718c8a5cdf1491a669d68bd9498461607374d91c54bbb936ee",
+  "pipeline_slug": "opaque-file-archive",
+  "run_slug": "bp1207-file-01",
+  "executed_spec_hash": "e12b2086927c9a1d645962bade411856ad437f4e8c0e067f899168769ece4b38",
+  "events": [
+    {
+      "at": "2026-10-18T18:41:08.593321+02:00",
+      "type": "run_started",
+      "step": null,
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:08.593352+02:00",
+      "type": "step_started",
+      "step": "download-file",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:08.63869+02:00",
+      "type": "step_succeeded",
+      "step": "download-file",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:08.638703+02:00",
+      "type": "step_started",
+      "step": "archive-file",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:09.43772+02:00",
+      "type": "step_succeeded",
+      "step": "archive-file",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:09.437726+02:00",
+      "type": "run_completed",
+      "step": null,
+      "status": "succeeded"
+    }
+  ],
+  "steps": [
+    {
+      "step": "download-file",
+      "kind": "query",
+      "result_type": "HTTP",
+      "vendor_type": "http",
+      "observed_metadata": {
+        "kind": "http_response",
+        "status_code": 200
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "archive-file",
+      "kind": "sink",
+      "result_type": "S3",
+      "vendor_type": "s3",
+      "observed_metadata": {
+        "kind": "file_write"
+      },
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Independent S3-compatible object byte read",
+    "expected_output_match": true,
+    "size_bytes": 31,
+    "sha256": "ccfab70ce45a0e14fab26493a6124c3b394fff3cb27ecff7a051574de1fa9774"
+  },
+  "limits": [
+    "No production readiness or cloud-provider acceptance claim",
+    "Run success, declared contracts, static Proof and destination effects are separate evidence",
+    "No retained payload inspection, artifact handoff, implicit trigger or universal replay guarantee"
+  ],
+  "qualification_asset_hashes": {
+    "recipes/opaque-file-archive/expected.json": "2535611b252ee6437f314bd9f072ba8180825822d25be6f95ca0e41aec6a7096",
+    "recipes/opaque-file-archive/fixtures/receipt.bin": "ccfab70ce45a0e14fab26493a6124c3b394fff3cb27ecff7a051574de1fa9774",
+    "recipes/opaque-file-archive/operations/write.statement.json": "52846f23f72559725390467131dd09ac9827455f3c3cacd237fd7e6236e06cbe"
+  },
+  "identity_limit": "Asset hashes record the qualification setup files; they are not persisted immutable saved-operation or provider-binding snapshots inside this runtime run."
+}

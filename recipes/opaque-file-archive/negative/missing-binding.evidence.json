@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18",
+  "case": "Environment validation before document-api binding",
+  "status": "expected_failure",
+  "reason_code": "DATA_SOURCE_BINDING_NOT_FOUND",
+  "step": "download-file",
+  "logical_ref": "document-api",
+  "execution_started": false,
+  "safe_next_action": "Bind this pipeline ref to an authorized compatible source in the selected enabled environment; rerun validation before deployment/execution."
+}

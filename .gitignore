@@ -1,0 +1,6 @@
+secrets/
+*.private.json
+*.private
+.env
+__pycache__/
+*.pyc

@@ -1,0 +1,11 @@
+{
+  "type": "http",
+  "name": "Synthetic recipe API",
+  "slug": "recipe-http",
+  "read_only": true,
+  "config": {
+    "base_url": "<your-synthetic-https-api-base-url>",
+    "health_path": "/health"
+  },
+  "credentials": {}
+}

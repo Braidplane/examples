@@ -1,0 +1,8 @@
+{
+  "operation": "write",
+  "key": "recipes/enriched-orders.json",
+  "format": "json",
+  "content": "{{input}}",
+  "overwrite": true,
+  "type": "s3"
+}

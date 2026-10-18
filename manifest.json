@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "compatible_braidplane_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "status": "work_in_progress",
+  "recipes": [
+    {
+      "slug": "http-customer-enrichment",
+      "task": "Enrich API orders with customer segments for an object export",
+      "spec": "recipes/http-customer-enrichment/http-customer-enrichment.pipeline.json",
+      "connector_roles": {
+        "http": "source",
+        "postgres": "source",
+        "s3": "sink"
+      },
+      "representations": [
+        "json",
+        "rows"
+      ],
+      "pattern": "named-input left join",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/http-customer-enrichment/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/http-customer-enrichment/execution.json"
+      },
+      "bindings": "recipes/http-customer-enrichment/bindings.template.json",
+      "expected": "recipes/http-customer-enrichment/expected.json",
+      "assets": [
+        "recipes/http-customer-enrichment/README.md",
+        "recipes/http-customer-enrichment/bindings.template.json",
+        "recipes/http-customer-enrichment/execution.json",
+        "recipes/http-customer-enrichment/expected.json",
+        "recipes/http-customer-enrichment/fixtures/customers.json",
+        "recipes/http-customer-enrichment/fixtures/orders.json",
+        "recipes/http-customer-enrichment/fixtures/source.sql",
+        "recipes/http-customer-enrichment/http-customer-enrichment.pipeline.json",
+        "recipes/http-customer-enrichment/negative/contract-mismatch.evidence.json",
+        "recipes/http-customer-enrichment/negative/orders.contract-mismatch.json",
+        "recipes/http-customer-enrichment/operations/write.statement.json",
+        "recipes/http-customer-enrichment/validation.json"
+      ],
+      "operations": [
+        {
+          "slug": "http-customer-enrichment-write",
+          "data_source_ref": "enriched-export",
+          "statement": "recipes/http-customer-enrichment/operations/write.statement.json"
+        }
+      ],
+      "docs": "recipes/http-customer-enrichment/README.md"
+    },
+    {
+      "slug": "settlement-ledger-reconciliation",
+      "task": "Reconcile settlement payments and refunds with the ledger in BigQuery",
+      "spec": "recipes/settlement-ledger-reconciliation/settlement-ledger-reconciliation.pipeline.json",
+      "connector_roles": {
+        "s3": "source",
+        "postgres": "source",
+        "bigquery": "sink"
+      },
+      "representations": [
+        "rows"
+      ],
+      "pattern": "named-input reconciliation with two explicit branches and independent sink writes",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/settlement-ledger-reconciliation/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/settlement-ledger-reconciliation/execution.json"
+      },
+      "bindings": "recipes/settlement-ledger-reconciliation/bindings.template.json",
+      "expected": "recipes/settlement-ledger-reconciliation/expected.json",
+      "assets": [
+        "recipes/settlement-ledger-reconciliation/README.md",
+        "recipes/settlement-ledger-reconciliation/bigquery-schema.json",
+        "recipes/settlement-ledger-reconciliation/bindings.template.json",
+        "recipes/settlement-ledger-reconciliation/execution.json",
+        "recipes/settlement-ledger-reconciliation/expected.json",
+        "recipes/settlement-ledger-reconciliation/fixtures/ledger.json",
+        "recipes/settlement-ledger-reconciliation/fixtures/settlements.csv",
+        "recipes/settlement-ledger-reconciliation/fixtures/source.sql",
+        "recipes/settlement-ledger-reconciliation/operations/write.statement.json",
+        "recipes/settlement-ledger-reconciliation/settlement-ledger-reconciliation.pipeline.json",
+        "recipes/settlement-ledger-reconciliation/validation.json"
+      ],
+      "operations": [
+        {
+          "slug": "settlement-ledger-reconciliation-write",
+          "data_source_ref": "reconciliation-warehouse",
+          "statement": "recipes/settlement-ledger-reconciliation/operations/write.statement.json"
+        }
+      ],
+      "docs": "recipes/settlement-ledger-reconciliation/README.md"
+    },
+    {
+      "slug": "spreadsheet-contact-overrides",
+      "task": "Apply spreadsheet name overrides to database contacts before CRM upsert",
+      "spec": "recipes/spreadsheet-contact-overrides/spreadsheet-contact-overrides.pipeline.json",
+      "connector_roles": {
+        "s3": "source",
+        "postgres": "source",
+        "hubspot": "sink"
+      },
+      "representations": [
+        "rows"
+      ],
+      "pattern": "spreadsheet normalization and named-input precedence join",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/spreadsheet-contact-overrides/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/spreadsheet-contact-overrides/execution.json"
+      },
+      "bindings": "recipes/spreadsheet-contact-overrides/bindings.template.json",
+      "expected": "recipes/spreadsheet-contact-overrides/expected.json",
+      "assets": [
+        "recipes/spreadsheet-contact-overrides/README.md",
+        "recipes/spreadsheet-contact-overrides/bindings.template.json",
+        "recipes/spreadsheet-contact-overrides/execution.json",
+        "recipes/spreadsheet-contact-overrides/expected.json",
+        "recipes/spreadsheet-contact-overrides/fixtures/contacts.json",
+        "recipes/spreadsheet-contact-overrides/fixtures/overrides.xlsx",
+        "recipes/spreadsheet-contact-overrides/fixtures/source.sql",
+        "recipes/spreadsheet-contact-overrides/operations/readback.statement.json",
+        "recipes/spreadsheet-contact-overrides/operations/write.statement.json",
+        "recipes/spreadsheet-contact-overrides/spreadsheet-contact-overrides.pipeline.json",
+        "recipes/spreadsheet-contact-overrides/validation.json"
+      ],
+      "operations": [
+        {
+          "slug": "spreadsheet-contact-overrides-write",
+          "data_source_ref": "contact-crm",
+          "statement": "recipes/spreadsheet-contact-overrides/operations/write.statement.json"
+        }
+      ],
+      "docs": "recipes/spreadsheet-contact-overrides/README.md"
+    },
+    {
+      "slug": "document-inventory-projection",
+      "task": "Project MongoDB inventory documents into a MySQL reporting table",
+      "spec": "recipes/document-inventory-projection/document-inventory-projection.pipeline.json",
+      "connector_roles": {
+        "mongodb": "source",
+        "mysql": "sink"
+      },
+      "representations": [
+        "json",
+        "rows"
+      ],
+      "pattern": "document-array row normalization and relational projection",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/document-inventory-projection/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/document-inventory-projection/execution.json"
+      },
+      "bindings": "recipes/document-inventory-projection/bindings.template.json",
+      "expected": "recipes/document-inventory-projection/expected.json",
+      "assets": [
+        "recipes/document-inventory-projection/README.md",
+        "recipes/document-inventory-projection/bindings.template.json",
+        "recipes/document-inventory-projection/document-inventory-projection.pipeline.json",
+        "recipes/document-inventory-projection/execution.json",
+        "recipes/document-inventory-projection/expected.json",
+        "recipes/document-inventory-projection/fixtures/inventory.json",
+        "recipes/document-inventory-projection/mysql-target.sql",
+        "recipes/document-inventory-projection/validation.json"
+      ],
+      "operations": [],
+      "docs": "recipes/document-inventory-projection/README.md"
+    },
+    {
+      "slug": "opaque-file-archive",
+      "task": "Archive an HTTP-delivered file in object storage without changing its bytes",
+      "spec": "recipes/opaque-file-archive/opaque-file-archive.pipeline.json",
+      "connector_roles": {
+        "http": "source",
+        "s3": "sink"
+      },
+      "representations": [
+        "file"
+      ],
+      "pattern": "opaque byte-preserving pass-through",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/opaque-file-archive/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/opaque-file-archive/execution.json"
+      },
+      "bindings": "recipes/opaque-file-archive/bindings.template.json",
+      "expected": "recipes/opaque-file-archive/expected.json",
+      "assets": [
+        "recipes/opaque-file-archive/README.md",
+        "recipes/opaque-file-archive/bindings.template.json",
+        "recipes/opaque-file-archive/execution.json",
+        "recipes/opaque-file-archive/expected.json",
+        "recipes/opaque-file-archive/fixtures/receipt.bin",
+        "recipes/opaque-file-archive/negative/missing-binding.evidence.json",
+        "recipes/opaque-file-archive/opaque-file-archive.pipeline.json",
+        "recipes/opaque-file-archive/operations/write.statement.json",
+        "recipes/opaque-file-archive/validation.json"
+      ],
+      "operations": [
+        {
+          "slug": "opaque-file-archive-write",
+          "data_source_ref": "document-archive",
+          "statement": "recipes/opaque-file-archive/operations/write.statement.json"
+        }
+      ],
+      "docs": "recipes/opaque-file-archive/README.md"
+    }
+  ],
+  "public_cli": {
+    "status": "refresh_required",
+    "incompatible_tag": "v0.1.0-alpha.5",
+    "required_capabilities": [
+      "LEFT JOIN",
+      "COALESCE",
+      "NULLIF",
+      "explicit SIGNED arithmetic casts"
+    ],
+    "canonical_export_candidate": "da30265ae83660bd0868402ce3fa4f088b26a31e",
+    "required_version": "v0.1.0-alpha.6"
+  },
+  "shared_assets": [
+    "connections/bigquery.template.json",
+    "connections/git.template.json",
+    "connections/http.template.json",
+    "connections/hubspot.template.json",
+    "connections/mongodb.template.json",
+    "connections/mysql.template.json",
+    "connections/postgres.template.json",
+    "connections/s3-destination.template.json",
+    "connections/s3-source.template.json"
+  ]
+}

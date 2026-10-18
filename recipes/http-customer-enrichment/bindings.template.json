@@ -1,0 +1,19 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "http-customer-enrichment",
+  "bindings": [
+    {
+      "logical_ref": "orders-api",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "customer-db",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "enriched-export",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    }
+  ]
+}

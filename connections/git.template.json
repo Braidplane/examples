@@ -1,0 +1,15 @@
+{
+  "type": "git",
+  "name": "Recipe Git backend",
+  "slug": "recipe-git",
+  "read_only": false,
+  "config": {
+    "repo_url": "<your-writable-https-clone-url>",
+    "default_branch": "<your-initialized-branch>"
+  },
+  "credentials": {
+    "auth_type": "https",
+    "username": "<your-provider-user>",
+    "token_file": "<absolute-path-to-git-token-file>"
+  }
+}

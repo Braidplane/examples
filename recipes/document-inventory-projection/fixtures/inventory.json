@@ -1,0 +1,17 @@
+[
+  {
+    "recipe": "bp-1207",
+    "sku": "sku-1",
+    "quantity": 7
+  },
+  {
+    "recipe": "bp-1207",
+    "sku": "sku-2",
+    "quantity": 0
+  },
+  {
+    "recipe": "bp-1207",
+    "sku": "sku-invalid",
+    "quantity": -1
+  }
+]

@@ -1,0 +1,10 @@
+language: en-US
+reviews:
+  auto_review:
+    enabled: false
+  path_filters:
+    - "!LICENSE"
+    - "!**/*.xlsx"
+    - "!**/*.bin"
+    - "!**/execution.json"
+    - "!**/validation.json"

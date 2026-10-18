@@ -1,0 +1,15 @@
+{
+  "type": "s3",
+  "name": "Recipe object source",
+  "slug": "recipe-s3-source",
+  "read_only": true,
+  "config": {
+    "region": "<your-region>",
+    "bucket": "<your-isolated-bucket>",
+    "prefix": "<your-dedicated-prefix>"
+  },
+  "credentials": {
+    "access_key_id_file": "<absolute-path-to-access-key-file>",
+    "secret_access_key_file": "<absolute-path-to-secret-key-file>"
+  }
+}

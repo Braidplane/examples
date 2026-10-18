@@ -1,0 +1,15 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "document-inventory-projection",
+  "bindings": [
+    {
+      "logical_ref": "inventory-documents",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "inventory-reporting",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "metadata": {
+    "slug": "settlement-ledger-reconciliation",
+    "name": "Reconcile settlement payments and refunds with the ledger in BigQuery"
+  },
+  "steps": [
+    {
+      "kind": "query",
+      "slug": "read-settlements",
+      "query": {
+        "data_source_ref": "settlement-files",
+        "operation_type": "s3",
+        "operation_inline": {
+          "operation": "read",
+          "key": "fixtures/settlements.csv",
+          "format": "csv",
+          "has_header": true
+        },
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "amount_cents",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "query",
+      "slug": "read-ledger",
+      "query": {
+        "data_source_ref": "ledger-db",
+        "operation_type": "sql",
+        "operation_inline": {
+          "sql": "SELECT transaction_id, amount_cents FROM recipe_ledger ORDER BY transaction_id"
+        },
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "amount_cents",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "reconcile-settlements",
+      "transform": {
+        "inputs": {
+          "settlements": "read-settlements",
+          "ledger": "read-ledger"
+        },
+        "sql": "SELECT settlements.transaction_id, CAST(settlements.amount_cents AS SIGNED) AS settled_cents, COALESCE(ledger.amount_cents, 0) AS ledger_cents, CAST(CAST(settlements.amount_cents AS SIGNED) - COALESCE(ledger.amount_cents, 0) AS SIGNED) AS difference_cents, CASE WHEN ledger.transaction_id IS NULL THEN 'missing-ledger' WHEN CAST(settlements.amount_cents AS SIGNED) = ledger.amount_cents THEN 'matched' ELSE 'amount-mismatch' END AS reconciliation_status FROM settlements LEFT JOIN ledger ON ledger.transaction_id = settlements.transaction_id ORDER BY transaction_id",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "settled_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "ledger_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "difference_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "reconciliation_status",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "find-missing-settlements",
+      "transform": {
+        "inputs": {
+          "settlements": "read-settlements",
+          "ledger": "read-ledger"
+        },
+        "sql": "SELECT ledger.transaction_id, 0 AS settled_cents, ledger.amount_cents AS ledger_cents, CAST(0 - ledger.amount_cents AS SIGNED) AS difference_cents, 'missing-settlement' AS reconciliation_status FROM ledger LEFT JOIN settlements ON settlements.transaction_id = ledger.transaction_id WHERE settlements.transaction_id IS NULL ORDER BY transaction_id",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "settled_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "ledger_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "difference_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "reconciliation_status",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "write-settlement-results",
+      "sink": {
+        "input": "reconcile-settlements",
+        "data_source_ref": "reconciliation-warehouse",
+        "operation_type": "bigquery",
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "settled_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "ledger_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "difference_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "reconciliation_status",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        "idempotency_class": "deduplicated_by_ledger",
+        "operation_ref": "settlement-ledger-reconciliation-write"
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "write-ledger-only-results",
+      "sink": {
+        "input": "find-missing-settlements",
+        "data_source_ref": "reconciliation-warehouse",
+        "operation_type": "bigquery",
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "transaction_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "settled_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "ledger_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "difference_cents",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "reconciliation_status",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        "idempotency_class": "deduplicated_by_ledger",
+        "operation_ref": "settlement-ledger-reconciliation-write"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "hubspot",
+  "object_type": "contacts",
+  "operation": "search",
+  "properties": [
+    "external_customer_id",
+    "email",
+    "firstname"
+  ],
+  "filter_groups": [
+    {
+      "filters": [
+        {
+          "property_name": "external_customer_id",
+          "operator": "IN",
+          "values": [
+            "c-1",
+            "c-2"
+          ]
+        }
+      ]
+    }
+  ],
+  "limit": 10
+}

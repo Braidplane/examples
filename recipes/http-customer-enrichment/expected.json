@@ -1,0 +1,14 @@
+[
+  {
+    "order_id": "o-1",
+    "customer_id": "c-1",
+    "amount_cents": 1200,
+    "segment": "wholesale"
+  },
+  {
+    "order_id": "o-2",
+    "customer_id": "c-missing",
+    "amount_cents": 500,
+    "segment": "unmatched"
+  }
+]

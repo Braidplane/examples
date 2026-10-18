@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "case": "Deliberate amount_cents string against integer transform output contract",
+  "run_slug": "bp1207-contract-mismatch-01",
+  "executed_spec_hash": "dd3d903df2886816990da1241037b6cb72870523401262213c6108b541dc1759",
+  "observed_at": "2026-10-18T18:43:32.014243+02:00",
+  "status": "expected_failure",
+  "observed_step": "enrich-orders",
+  "reason_code": "transform_contract_mismatch",
+  "side": "transform",
+  "observed_failure_kind": "platform",
+  "sink_started": false,
+  "diagnosis": "Observed transform contract mismatch; do not infer a source-boundary check from the authored query contract",
+  "safe_next_action": "Correct the provider field type; validate before starting an explicit new run. Do not weaken an integer-cent contract merely to accept malformed data."
+}

@@ -1,0 +1,8 @@
+{
+  "operation": "write",
+  "key": "recipes/receipt.bin",
+  "format": "file",
+  "content": "{{input}}",
+  "overwrite": true,
+  "type": "s3"
+}

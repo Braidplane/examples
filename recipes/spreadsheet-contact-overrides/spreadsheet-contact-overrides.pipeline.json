@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "slug": "spreadsheet-contact-overrides",
+    "name": "Apply spreadsheet name overrides to database contacts before CRM upsert"
+  },
+  "steps": [
+    {
+      "kind": "query",
+      "slug": "read-overrides",
+      "query": {
+        "data_source_ref": "override-workbook",
+        "operation_type": "s3",
+        "operation_inline": {
+          "operation": "read",
+          "key": "fixtures/overrides.xlsx",
+          "format": "spreadsheet",
+          "sheet": "Overrides",
+          "range": "A1:B3",
+          "has_header": true
+        },
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "customer_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "query",
+      "slug": "read-contacts",
+      "query": {
+        "data_source_ref": "contact-db",
+        "operation_type": "sql",
+        "operation_inline": {
+          "sql": "SELECT customer_id, email, first_name FROM recipe_contacts ORDER BY customer_id"
+        },
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "customer_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "apply-overrides",
+      "transform": {
+        "inputs": {
+          "contacts": "read-contacts",
+          "overrides": "read-overrides"
+        },
+        "sql": "SELECT contacts.customer_id, contacts.email, COALESCE(NULLIF(overrides.first_name, ''), contacts.first_name) AS first_name FROM contacts LEFT JOIN overrides ON overrides.customer_id = contacts.customer_id ORDER BY customer_id",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "customer_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "upsert-contacts",
+      "sink": {
+        "input": "apply-overrides",
+        "data_source_ref": "contact-crm",
+        "operation_type": "hubspot",
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "customer_id",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        "idempotency_class": "idempotent_with_key",
+        "operation_ref": "spreadsheet-contact-overrides-write"
+      }
+    }
+  ]
+}

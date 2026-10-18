@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T18:41:44.910352+02:00",
+  "execution_status": "succeeded",
+  "scope": "Controlled isolated non-production local execution",
+  "provider_boundary": "Local SeaweedFS spreadsheet, PostgreSQL and HubSpot protocol mock; real HubSpot account not exercised",
+  "runtime_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_file_sha256": "583ad2e96f04e012efd20a7fd44b051a8f1a250a8f19c916fc82e2de707bf7c4",
+  "pipeline_slug": "spreadsheet-contact-overrides",
+  "run_slug": "bp1207-overrides-02",
+  "executed_spec_hash": "ff4e01d3fba0dc8782aa5a3f9b2c04d4550bdbb14b9ee6c3da44eced575bba10",
+  "events": [
+    {
+      "at": "2026-10-18T18:41:43.310281+02:00",
+      "type": "run_started",
+      "step": null,
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:43.313767+02:00",
+      "type": "step_started",
+      "step": "read-overrides",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:43.345963+02:00",
+      "type": "step_succeeded",
+      "step": "read-overrides",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:43.345973+02:00",
+      "type": "step_started",
+      "step": "read-contacts",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:43.87745+02:00",
+      "type": "step_succeeded",
+      "step": "read-contacts",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:43.87746+02:00",
+      "type": "step_started",
+      "step": "apply-overrides",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:43.961941+02:00",
+      "type": "step_succeeded",
+      "step": "apply-overrides",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:43.961952+02:00",
+      "type": "step_started",
+      "step": "upsert-contacts",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:41:44.910349+02:00",
+      "type": "step_succeeded",
+      "step": "upsert-contacts",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:41:44.910352+02:00",
+      "type": "run_completed",
+      "step": null,
+      "status": "succeeded"
+    }
+  ],
+  "steps": [
+    {
+      "step": "read-overrides",
+      "kind": "query",
+      "result_type": "S3",
+      "vendor_type": "s3",
+      "observed_metadata": {
+        "column_names": [
+          "customer_id",
+          "first_name"
+        ],
+        "kind": "file_read",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "read-contacts",
+      "kind": "query",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "column_names": [
+          "customer_id",
+          "email",
+          "first_name"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "apply-overrides",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "customer_id",
+          "email",
+          "first_name"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "upsert-contacts",
+      "kind": "sink",
+      "result_type": null,
+      "vendor_type": null,
+      "observed_metadata": {},
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Independent destination read, normalized and compared with expected.json",
+    "expected_output_match": true,
+    "row_count": 2,
+    "normalized_output_sha256": "7ca73f3fddfd9daee665c1539996c7ee8eac05a2de1e06d4d26f5d390b422b97"
+  },
+  "limits": [
+    "No production readiness or cloud-provider acceptance claim",
+    "Run success, declared contracts, static Proof and destination effects are separate evidence",
+    "No retained payload inspection, artifact handoff, implicit trigger or universal replay guarantee"
+  ],
+  "qualification_asset_hashes": {
+    "recipes/spreadsheet-contact-overrides/expected.json": "03abf1c2c8d740a28187ebfad8a52e1f90aa936bff60cbcfa0dd8046020c805a",
+    "recipes/spreadsheet-contact-overrides/fixtures/contacts.json": "e9b7cdf24c2b476ecd17d0a3d34cecc7609246b74440523f6d27eb8ebc357c18",
+    "recipes/spreadsheet-contact-overrides/fixtures/overrides.xlsx": "3ceeed83b2030b60cb7edc70f3785722e448b3734b9d801b3ba1df6c93d7dedb",
+    "recipes/spreadsheet-contact-overrides/fixtures/source.sql": "009b6fc1dc92fa16ab864f7c974c91ac7133f1f934c29f6d05e34c841f658273",
+    "recipes/spreadsheet-contact-overrides/operations/write.statement.json": "8251de1baf4a79bd1a00805090b71b2503fd257d24065108458754201b738652"
+  },
+  "identity_limit": "Asset hashes record the qualification setup files; they are not persisted immutable saved-operation or provider-binding snapshots inside this runtime run."
+}

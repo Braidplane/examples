@@ -1,0 +1,15 @@
+{
+  "type": "bigquery",
+  "name": "Recipe reconciliation warehouse",
+  "slug": "recipe-bigquery",
+  "read_only": false,
+  "config": {
+    "project_id": "<your-non-production-project>",
+    "location": "<your-dataset-location>",
+    "default_dataset": "recipe_examples",
+    "maximum_bytes_billed": 1000000
+  },
+  "credentials": {
+    "service_account_json_file": "<absolute-path-to-service-account-json-file>"
+  }
+}

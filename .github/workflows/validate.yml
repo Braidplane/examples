@@ -1,0 +1,23 @@
+name: Validate examples
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: .go-version
+          cache: false
+      - name: Install the pinned public CLI
+        run: GOBIN="$RUNNER_TEMP/bin" go install "github.com/Braidplane/cli/cmd/braidplane@$(cat cli-version.txt)"
+      - name: Check canonical recipes and integrity failures
+        run: |
+          python3 scripts/validate.py --cli "$RUNNER_TEMP/bin/braidplane"
+          python3 -m unittest discover -s scripts -p 'test_*.py'
