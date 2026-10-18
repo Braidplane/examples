@@ -8,3 +8,4 @@ reviews:
     - "!**/*.bin"
     - "!**/execution.json"
     - "!**/validation.json"
+    - "!**/*.evidence.json"
