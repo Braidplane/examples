@@ -6,6 +6,12 @@ S3 CSV + a PostgreSQL payment/refund ledger → comparison rows and batch totals
 
 Start with the [shared guide](../../GUIDE.md), [full spec](settlement-review.pipeline.json), [bindings](bindings.template.json), [validation](validation.json) and [execution record](execution.json).
 
+## Run lineage
+
+![Seven-step settlement review lineage: two sources, normalization, comparison, batch totals and two successful sinks](lineage.jpg)
+
+Captured from the local Braidplane UI on 18 October 2026 for run `settlement-review-20261018113700-9na9qh`, executed version `642833f5a8fa70eab5f5b75e70d523baf6e70d0c44a2da41fb23bb854a3c2fe3`. This is the historical synthetic rehearsal recorded in [execution.json](execution.json); it does not establish hosted or cloud-provider acceptance.
+
 ## Lineage and specification
 
 ```mermaid

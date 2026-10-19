@@ -4,6 +4,12 @@ S3 Excel worksheet rows + PostgreSQL contacts → named contacts/overrides left 
 
 Start with the [shared setup/run/cleanup guide](../../GUIDE.md). Commands below run from the repository root. [Spec](spreadsheet-contact-overrides.pipeline.json), [bindings](bindings.template.json), [offline/target validation](validation.json), and [execution evidence](execution.json) are separate canonical records.
 
+## Run lineage
+
+![Run lineage for spreadsheet-contact-overrides, showing its sources, transforms and sinks](lineage.png)
+
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `bp1207-overrides-02` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
+
 ## Provider setup
 
 Use a dedicated HubSpot developer test account without enabled contact workflows. Create a contact property named `external_customer_id`, type string, configured as unique; grant the test private app contact read/write and access to that property. The writer also needs email and firstname. Imported contacts do not authorize emails, subscriptions or other outreach.

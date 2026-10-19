@@ -4,6 +4,12 @@ S3 headered CSV + PostgreSQL ledger → named-input reconciliation and missing-s
 
 Start with the [shared setup/run/cleanup guide](../../GUIDE.md). Commands below run from the repository root. [Spec](settlement-ledger-reconciliation.pipeline.json), [bindings](bindings.template.json), [offline/target validation](validation.json), and [execution evidence](execution.json) are separate canonical records.
 
+## Run lineage
+
+![Run lineage for settlement-ledger-reconciliation, showing its sources, transforms and sinks](lineage.png)
+
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `bp1207-reconciliation-01` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
+
 ## Provider setup
 
 Use [PostgreSQL](../../connections/postgres.template.json), [S3 source](../../connections/s3-source.template.json), and [BigQuery destination](../../connections/bigquery.template.json) connections. Export their created slugs as `RECIPE_PG_SOURCE`, `RECIPE_OBJECT_SOURCE`, and `RECIPE_BIGQUERY_DEST`. The object-source prefix and the AWS CLI upload prefix must agree:

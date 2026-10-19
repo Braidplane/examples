@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "renderer": {
+    "repository": "https://github.com/Braidplane/braidplane",
+    "revision": "7a10f18a9d42c36bc99795c686e994f257cd6597",
+    "component": "frontend/views/run_lineage.templ",
+    "projection": "frontend/runlineage/view.go",
+    "scope": "Renderer revision applies to the five component renders; the historical application screenshot retains the source checkpoint recorded in its execution receipt.",
+    "viewport": {
+      "width": 1600,
+      "height": 900,
+      "device_scale_factor": 1
+    },
+    "browser": "Chromium via Playwright",
+    "mapping": "Canonical spec supplies topology and planned configuration. Archived events supply step status and elapsed duration; archived step metadata supplies sanitized output and delivery outcome. Unrecorded resolved bindings remain unavailable.",
+    "limits": [
+      "Component renders reconstruct the archived receipt for illustration; they do not prove persisted API snapshots or fresh execution.",
+      "Existing provider, version identity and delivery qualifications in execution.json remain authoritative."
+    ]
+  },
+  "captures": [
+    {
+      "recipe": "http-customer-enrichment",
+      "image": "recipes/http-customer-enrichment/lineage.png",
+      "kind": "archived-execution-component-render",
+      "captured_on": "2026-10-19",
+      "run_slug": "bp1207-http-02",
+      "executed_spec_hash": "dd3d903df2886816990da1241037b6cb72870523401262213c6108b541dc1759",
+      "spec": "recipes/http-customer-enrichment/http-customer-enrichment.pipeline.json",
+      "spec_file_sha256": "fba28980ccbaf843504c87863a43e42d8dd73510767b10b0f7c4f545ea33199f",
+      "execution_receipt": "recipes/http-customer-enrichment/execution.json",
+      "execution_receipt_sha256": "d2290673ccb6c86499c2b2fa97655986a6e0b781e25d081d9b88e55d718fc742",
+      "image_sha256": "3f23a8540a175884a2f3be102a0a7fed2788a6acb659c595f6767adb989bfffb"
+    },
+    {
+      "recipe": "settlement-ledger-reconciliation",
+      "image": "recipes/settlement-ledger-reconciliation/lineage.png",
+      "kind": "archived-execution-component-render",
+      "captured_on": "2026-10-19",
+      "run_slug": "bp1207-reconciliation-01",
+      "executed_spec_hash": "1a113cf5ed94c4792d5d39c63f9bf7ff48a9dfe4cb0da4ed4c1e3b3bec72b80c",
+      "spec": "recipes/settlement-ledger-reconciliation/settlement-ledger-reconciliation.pipeline.json",
+      "spec_file_sha256": "b3749b5769884e9e64e9e27c7cb255d3c2c8f4451069151fd2c032565497ec00",
+      "execution_receipt": "recipes/settlement-ledger-reconciliation/execution.json",
+      "execution_receipt_sha256": "8b15ce637a0525770e30a8a984e6b83fbe1018e8de2f9aee80e781460a47089f",
+      "image_sha256": "9a3b4ae32b7a1a26be957e7b0ca93cdaa48231fbdd867fd600ed3fbbabd04819"
+    },
+    {
+      "recipe": "spreadsheet-contact-overrides",
+      "image": "recipes/spreadsheet-contact-overrides/lineage.png",
+      "kind": "archived-execution-component-render",
+      "captured_on": "2026-10-19",
+      "run_slug": "bp1207-overrides-02",
+      "executed_spec_hash": "ff4e01d3fba0dc8782aa5a3f9b2c04d4550bdbb14b9ee6c3da44eced575bba10",
+      "spec": "recipes/spreadsheet-contact-overrides/spreadsheet-contact-overrides.pipeline.json",
+      "spec_file_sha256": "583ad2e96f04e012efd20a7fd44b051a8f1a250a8f19c916fc82e2de707bf7c4",
+      "execution_receipt": "recipes/spreadsheet-contact-overrides/execution.json",
+      "execution_receipt_sha256": "f06cba959f83eb2c8753d1f1ec858924f7236799b5e8662241369d8cb286d39a",
+      "image_sha256": "19f2c29ddc14b69aef3a81fb375d6d69461ebf3e738412e868ccef6b619d4d0d"
+    },
+    {
+      "recipe": "document-inventory-projection",
+      "image": "recipes/document-inventory-projection/lineage.png",
+      "kind": "archived-execution-component-render",
+      "captured_on": "2026-10-19",
+      "run_slug": "bp1207-inventory-01",
+      "executed_spec_hash": "7fe6878f9af77135597e98b59f976d87b092c0a6825960866b4cf8390befc106",
+      "spec": "recipes/document-inventory-projection/document-inventory-projection.pipeline.json",
+      "spec_file_sha256": "44c33f350459f3a422e78803244102da8fbc6dead662f689c0acf08df5bc0311",
+      "execution_receipt": "recipes/document-inventory-projection/execution.json",
+      "execution_receipt_sha256": "38bab41b039325651628d3588c1c901a15b8c519ac50b8f1b02884fed4f1a127",
+      "image_sha256": "1ceeb35897f2afb95a849fa0e23324e6e0c919e1580874a97b6e5e5a65f34da0"
+    },
+    {
+      "recipe": "opaque-file-archive",
+      "image": "recipes/opaque-file-archive/lineage.png",
+      "kind": "archived-execution-component-render",
+      "captured_on": "2026-10-19",
+      "run_slug": "bp1207-file-01",
+      "executed_spec_hash": "e12b2086927c9a1d645962bade411856ad437f4e8c0e067f899168769ece4b38",
+      "spec": "recipes/opaque-file-archive/opaque-file-archive.pipeline.json",
+      "spec_file_sha256": "227dcb50508263718c8a5cdf1491a669d68bd9498461607374d91c54bbb936ee",
+      "execution_receipt": "recipes/opaque-file-archive/execution.json",
+      "execution_receipt_sha256": "58c025560821bed39fe6371886f564ebba296b8c7d0261589012bf475a6cdd83",
+      "image_sha256": "5177048b9542b796e64f93cd48bfe512553c49f6209dcec96f492f11486fd9cd"
+    },
+    {
+      "recipe": "settlement-review",
+      "image": "recipes/settlement-review/lineage.jpg",
+      "kind": "historical-local-app-screenshot",
+      "captured_on": "2026-10-18",
+      "run_slug": "settlement-review-20261018113700-9na9qh",
+      "executed_spec_hash": "642833f5a8fa70eab5f5b75e70d523baf6e70d0c44a2da41fb23bb854a3c2fe3",
+      "spec": "recipes/settlement-review/settlement-review.pipeline.json",
+      "spec_file_sha256": "b340b70505d8d153c10b3890b383e5b46bba8dcdfc832ee5f82f6f39cfb4044a",
+      "execution_receipt": "recipes/settlement-review/execution.json",
+      "execution_receipt_sha256": "8104f629783640307b295d10178d1fe795a172a8cc8b90bf48c49d16bddca7ab",
+      "image_sha256": "dda73790f05c925f14d63c3b1ac11b8e7d0f5b73f2e33ecbe268f1443bbbd2ca"
+    }
+  ]
+}

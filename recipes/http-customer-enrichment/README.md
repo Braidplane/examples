@@ -4,6 +4,12 @@ HTTP JSON order array + PostgreSQL customer rows → named orders/customers left
 
 Start with the [shared setup/run/cleanup guide](../../GUIDE.md). Commands below run from the repository root. [Spec](http-customer-enrichment.pipeline.json), [bindings](bindings.template.json), [offline/target validation](validation.json), and [execution evidence](execution.json) are separate canonical records.
 
+## Run lineage
+
+![Run lineage for http-customer-enrichment, showing its sources, transforms and sinks](lineage.png)
+
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `bp1207-http-02` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
+
 ## Provider setup
 
 Use a synthetic HTTP server reachable by the Braidplane worker. Its `/health` returns success and `/orders` returns [fixtures/orders.json](fixtures/orders.json) with `Content-Type: application/json`. It must not wrap the array in an envelope. The PostgreSQL source needs SELECT on `recipe_customers`. Create that table once in an empty isolated database using the canonical fixture:
