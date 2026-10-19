@@ -16,7 +16,7 @@ All five specs passed local CLI validation and target-aware validation before de
 
 | Observation | Resolution / owner / remaining limit |
 | --- | --- |
-| Public CLI alpha.5 rejects left joins although the current source runtime supports them | Public CLI publication prerequisite under BP-1207. The canonical export allowlist correction is prepared; no claim of alpha.5 compatibility. CI pins the intended refreshed alpha.6 release and cannot pass public installation until it is actually published |
+| Public CLI alpha.5 rejects left joins although the current source runtime supports them | Resolved by published v0.1.0-alpha.6 on 2026-10-19 after the reviewed canonical export correction. The pinned public CLI validates all five unchanged specs through Go install and the verified macOS ARM64 archive; public-cli-validation.json retains this separate compatibility proof. Alpha.5 remains incompatible |
 | Canonical CLI export omitted 33 already-tracked shared source/test/enum files | Explicit manifest correction in the canonical Braidplane repository, followed by repeatable export, standalone tests and unchanged generation. A local snapshot is not a public release |
 | An offline-valid inline S3 sink failed at runtime because config.key and a saved operation are required | Use the documented saved operation plus explicit S3 sink config. BigQuery and HubSpot also use saved sinks. SQL sink remains supported inline. This collection does not implement missing inline adapter behavior |
 | ORDER BY requires unqualified projected field names; integer CAST syntax is SIGNED | Specs use the supported SQL dialect explicitly. The engine is not arbitrary PostgreSQL/GoogleSQL/MySQL execution |

@@ -4,7 +4,7 @@ Commands use Bash. Use isolated non-production resources and synthetic data. Thi
 
 ## Prerequisites
 
-Use a compatible Braidplane deployment and refreshed public CLI described in README.md; alpha.5 cannot validate these left joins. Install Python 3 for integrity checks and jq for the commands below. Provider setup requires the selected recipe's native tools: psql, AWS CLI, Google Cloud BigQuery tooling, mongosh, MySQL client, or authorized HubSpot property administration as applicable. These tools do not run in ordinary CI.
+Use a compatible Braidplane deployment and the published public CLI pinned in cli-version.txt; alpha.5 cannot validate these left joins. Install Python 3 for integrity checks and jq for the commands below. Provider setup requires the selected recipe's native tools: psql, AWS CLI, Google Cloud BigQuery tooling, mongosh, MySQL client, or authorized HubSpot property administration as applicable. These tools do not run in ordinary CI.
 
 Create a personal access token through your deployment's normal Account/Security flow, then authenticate using the supported CLI login. Select the API URL, organization, project and enabled environment explicitly. The API URL is deployment-specific: a local split app can use an `/api` prefix; use your deployment's documented API base. Keep tokens in the supported secure credential store, never in a committed connection file.
 

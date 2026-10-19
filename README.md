@@ -16,12 +16,13 @@ Read [setup and execution](GUIDE.md), [coverage and friction](COVERAGE.md), and 
 
 The collection passed offline/ref-aware validation and controlled local runtime execution at the source revision in manifest.json. PostgreSQL, MongoDB, MySQL and S3-compatible storage were local containers; HTTP was a synthetic fixture. BigQuery and HubSpot were local protocol mocks. Their receipts do not establish Google Cloud or HubSpot account acceptance, provider retries, or production readiness.
 
-The public CLI `v0.1.0-alpha.5` rejects the left joins used here. A refreshed audited public CLI snapshot is required before public CLI installation/CI can qualify this collection. Publication remains pending that dependency; do not claim alpha.5 compatibility. The compatible canonical source/export candidate and exact spec hashes are recorded in the manifest and receipts. These files do not include a new CLI implementation or spec dialect.
+The published [CLI v0.1.0-alpha.6](https://github.com/Braidplane/cli/releases/tag/v0.1.0-alpha.6) validates all five included specs. Both a fresh Go installation and the verified macOS ARM64 release archive passed; [public CLI validation](public-cli-validation.json) records the exact source and checks. Runtime/target-validation receipts retain their original source revision and provider limits. Public alpha.5 rejects the left joins used here; use the version pinned in cli-version.txt.
 
-A source-built CLI with these capabilities can check the collection:
+With the Go toolchain pinned in .go-version available, install the public CLI and check the collection (its install directory must be on PATH):
 
 ```sh
-python3 scripts/validate.py --cli /absolute/path/to/braidplane
+go install "github.com/Braidplane/cli/cmd/braidplane@$(cat cli-version.txt)"
+python3 scripts/validate.py
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 

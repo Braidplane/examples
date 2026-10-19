@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-19T07:14:09.954219+00:00",
+  "cli_version": "v0.1.0-alpha.6",
+  "public_commit": "2b2d699e1a62154fcfaa9938239d31daa2be5221",
+  "canonical_source": {
+    "canonical_commit": "e603ca1569c02b71bd55c5a41a35671e38094e74",
+    "cli_tree": "08dd801886c6b3fc868c1e64f1607db03a07e143",
+    "release_version": "v0.1.0-alpha.6"
+  },
+  "release_url": "https://github.com/Braidplane/cli/releases/tag/v0.1.0-alpha.6",
+  "public_ci": "https://github.com/Braidplane/cli/actions/runs/39213814950",
+  "release_ci": "https://github.com/Braidplane/cli/actions/runs/39213814958",
+  "ci_outcome": "passed",
+  "release_metadata": {
+    "prerelease": true,
+    "latest": false
+  },
+  "archive_verification": {
+    "checksums_verified": 6,
+    "github_asset_digests_verified": 8,
+    "source_receipts_and_licenses_verified": 6,
+    "sigstore_provenance_verified": 6,
+    "source_ref": "refs/tags/v0.1.0-alpha.6",
+    "source_commit": "2b2d699e1a62154fcfaa9938239d31daa2be5221",
+    "signer_workflow": "Braidplane/cli/.github/workflows/release.yml",
+    "predicate_type": "https://slsa.dev/provenance/v1",
+    "self_hosted_runners_denied": true
+  },
+  "recipes": [
+    {
+      "slug": "http-customer-enrichment",
+      "spec": "recipes/http-customer-enrichment/http-customer-enrichment.pipeline.json",
+      "spec_sha256": "fba28980ccbaf843504c87863a43e42d8dd73510767b10b0f7c4f545ea33199f",
+      "offline_validation": {
+        "go_install": "passed",
+        "release_archive_darwin_arm64": "passed"
+      }
+    },
+    {
+      "slug": "settlement-ledger-reconciliation",
+      "spec": "recipes/settlement-ledger-reconciliation/settlement-ledger-reconciliation.pipeline.json",
+      "spec_sha256": "b3749b5769884e9e64e9e27c7cb255d3c2c8f4451069151fd2c032565497ec00",
+      "offline_validation": {
+        "go_install": "passed",
+        "release_archive_darwin_arm64": "passed"
+      }
+    },
+    {
+      "slug": "spreadsheet-contact-overrides",
+      "spec": "recipes/spreadsheet-contact-overrides/spreadsheet-contact-overrides.pipeline.json",
+      "spec_sha256": "583ad2e96f04e012efd20a7fd44b051a8f1a250a8f19c916fc82e2de707bf7c4",
+      "offline_validation": {
+        "go_install": "passed",
+        "release_archive_darwin_arm64": "passed"
+      }
+    },
+    {
+      "slug": "document-inventory-projection",
+      "spec": "recipes/document-inventory-projection/document-inventory-projection.pipeline.json",
+      "spec_sha256": "44c33f350459f3a422e78803244102da8fbc6dead662f689c0acf08df5bc0311",
+      "offline_validation": {
+        "go_install": "passed",
+        "release_archive_darwin_arm64": "passed"
+      }
+    },
+    {
+      "slug": "opaque-file-archive",
+      "spec": "recipes/opaque-file-archive/opaque-file-archive.pipeline.json",
+      "spec_sha256": "227dcb50508263718c8a5cdf1491a669d68bd9498461607374d91c54bbb936ee",
+      "offline_validation": {
+        "go_install": "passed",
+        "release_archive_darwin_arm64": "passed"
+      }
+    }
+  ],
+  "scope": "Published CLI offline compatibility only. Dated environment-validation and execution records retain their original source revision, run/version identity and local/protocol-mock provider limits. No provider execution was repeated for this CLI check."
+}

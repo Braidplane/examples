@@ -229,7 +229,7 @@
     }
   ],
   "public_cli": {
-    "status": "refresh_required",
+    "status": "published",
     "incompatible_tag": "v0.1.0-alpha.5",
     "required_capabilities": [
       "LEFT JOIN",
@@ -238,7 +238,10 @@
       "explicit SIGNED arithmetic casts"
     ],
     "canonical_export_candidate": "da30265ae83660bd0868402ce3fa4f088b26a31e",
-    "required_version": "v0.1.0-alpha.6"
+    "required_version": "v0.1.0-alpha.6",
+    "published_commit": "2b2d699e1a62154fcfaa9938239d31daa2be5221",
+    "canonical_published_revision": "e603ca1569c02b71bd55c5a41a35671e38094e74",
+    "validation_evidence": "public-cli-validation.json"
   },
   "shared_assets": [
     "connections/bigquery.template.json",
@@ -249,7 +252,8 @@
     "connections/mysql.template.json",
     "connections/postgres.template.json",
     "connections/s3-destination.template.json",
-    "connections/s3-source.template.json"
+    "connections/s3-source.template.json",
+    "public-cli-validation.json"
   ],
   "fixture_server": "scripts/serve_http_fixtures.py"
 }
