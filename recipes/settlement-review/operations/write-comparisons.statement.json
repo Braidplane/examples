@@ -1,0 +1,4 @@
+{
+  "type": "postgres",
+  "sql": "INSERT INTO settlement_comparisons (evaluation_id, batch_id, line_id, provider_event_id, event_type, order_id, currency, reported_gross, reported_fee, reported_net, ledger_order_id, ledger_gross, difference, unmatched) SELECT evaluation_id, batch_id, line_id, provider_event_id, event_type, order_id, currency, reported_gross, reported_fee, reported_net, ledger_order_id, ledger_gross, difference, unmatched FROM input ON CONFLICT (evaluation_id, line_id) DO UPDATE SET batch_id = EXCLUDED.batch_id, provider_event_id = EXCLUDED.provider_event_id, event_type = EXCLUDED.event_type, order_id = EXCLUDED.order_id, currency = EXCLUDED.currency, reported_gross = EXCLUDED.reported_gross, reported_fee = EXCLUDED.reported_fee, reported_net = EXCLUDED.reported_net, ledger_order_id = EXCLUDED.ledger_order_id, ledger_gross = EXCLUDED.ledger_gross, difference = EXCLUDED.difference, unmatched = EXCLUDED.unmatched"
+}

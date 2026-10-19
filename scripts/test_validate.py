@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -21,7 +23,33 @@ class IntegrityTests(unittest.TestCase):
         (self.root / 'manifest.json').write_text(json.dumps(manifest))
 
     def test_current_canonical_collection(self):
-        self.assertEqual(validate.validate_repository(self.root), 5)
+        self.assertEqual(validate.validate_repository(self.root), 6)
+
+    def test_duplicate_recipe_is_rejected(self):
+        manifest = self.manifest()
+        manifest['recipes'].append(manifest['recipes'][0])
+        self.save(manifest)
+        with self.assertRaisesRegex(ValueError, 'distinct recipes'):
+            validate.validate_repository(self.root)
+
+    def test_advanced_demo_destination_readback(self):
+        recipe = self.root / 'recipes/settlement-review'
+        expected = json.loads((recipe / 'expected.json').read_text())
+        for name in ('comparisons', 'totals'):
+            self.assertEqual(json.loads((recipe / ('observed-' + name + '.json')).read_text())['rows'], expected[name])
+
+    def test_advanced_checker_rejects_corrupt_destination_fields(self):
+        recipe = self.root / 'recipes/settlement-review'
+        command = [sys.executable, str(recipe / 'check-results.py'), str(recipe / 'observed-comparisons.json'), str(recipe / 'observed-totals.json')]
+        self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+        for name, field in [('comparisons', 'reported_net'), ('totals', 'matched_count')]:
+            path = recipe / ('observed-' + name + '.json')
+            data = json.loads(path.read_text())
+            data['rows'][0][field] += 1
+            path.write_text(json.dumps(data))
+            with self.subTest(output=name):
+                self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            path.write_text(json.dumps({"rows": json.loads((recipe / 'expected.json').read_text())[name]}))
 
     def test_external_asset_is_rejected(self):
         manifest = self.manifest()

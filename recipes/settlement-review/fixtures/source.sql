@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS settlement_demo_ledger (provider_event_id text NOT NULL, event_type text NOT NULL, order_id text NOT NULL, currency text NOT NULL, ledger_gross bigint NOT NULL, PRIMARY KEY (provider_event_id,event_type,currency));
+INSERT INTO settlement_demo_ledger VALUES ('capture-001','capture','order-001','EUR',10000), ('refund-001','refund','order-001','EUR',-2000) ON CONFLICT (provider_event_id,event_type,currency) DO NOTHING;

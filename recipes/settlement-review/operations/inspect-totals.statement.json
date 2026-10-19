@@ -1,0 +1,4 @@
+{
+  "type": "postgres",
+  "sql": "SELECT * FROM settlement_totals WHERE evaluation_id = 'settlement-demo-001' ORDER BY batch_id, currency"
+}

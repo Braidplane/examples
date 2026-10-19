@@ -1,0 +1,17 @@
+{
+  "rows": [
+    {
+      "evaluation_id": "settlement-demo-001",
+      "batch_id": "batch-001",
+      "currency": "EUR",
+      "line_count": 3,
+      "matched_count": 2,
+      "unmatched_count": 1,
+      "reported_gross": 11000,
+      "reported_fee": 350,
+      "reported_net": 10650,
+      "matched_ledger_gross": 8000,
+      "matched_difference": 500
+    }
+  ]
+}

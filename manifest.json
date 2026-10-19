@@ -226,6 +226,87 @@
       ],
       "docs": "recipes/opaque-file-archive/README.md",
       "setup_assets": []
+    },
+    {
+      "slug": "settlement-review",
+      "task": "Advanced: trace settlement normalization, nullable comparison and batch totals (BP-1011 demo)",
+      "spec": "recipes/settlement-review/settlement-review.pipeline.json",
+      "connector_roles": {
+        "s3": "source",
+        "postgres": "source and sink, separate databases"
+      },
+      "representations": [
+        "rows"
+      ],
+      "pattern": "seven-step normalization, named-input left join, aggregation and two upserts",
+      "validation": {
+        "status": "passed",
+        "evidence": "recipes/settlement-review/validation.json"
+      },
+      "execution": {
+        "status": "verified_local",
+        "evidence": "recipes/settlement-review/execution.json"
+      },
+      "bindings": "recipes/settlement-review/bindings.template.json",
+      "expected": "recipes/settlement-review/expected.json",
+      "assets": [
+        "recipes/settlement-review/bindings.template.json",
+        "recipes/settlement-review/check-results.py",
+        "recipes/settlement-review/expected.json",
+        "recipes/settlement-review/fixtures/settlement.csv",
+        "recipes/settlement-review/fixtures/source.sql",
+        "recipes/settlement-review/observed-comparisons.json",
+        "recipes/settlement-review/observed-totals.json",
+        "recipes/settlement-review/operations/inspect-comparisons.statement.json",
+        "recipes/settlement-review/operations/inspect-totals.statement.json",
+        "recipes/settlement-review/operations/read-ledger.statement.json",
+        "recipes/settlement-review/operations/read-settlement.statement.json",
+        "recipes/settlement-review/operations/write-comparisons.statement.json",
+        "recipes/settlement-review/operations/write-totals.statement.json",
+        "recipes/settlement-review/postgres-targets.sql",
+        "recipes/settlement-review/settlement-review.pipeline.json",
+        "recipes/settlement-review/README.md",
+        "recipes/settlement-review/execution.json",
+        "recipes/settlement-review/validation.json"
+      ],
+      "operations": [
+        {
+          "slug": "read-settlement",
+          "data_source_ref": "settlement-file",
+          "statement": "recipes/settlement-review/operations/read-settlement.statement.json"
+        },
+        {
+          "slug": "read-ledger",
+          "data_source_ref": "payment-ledger",
+          "statement": "recipes/settlement-review/operations/read-ledger.statement.json"
+        },
+        {
+          "slug": "write-comparisons",
+          "data_source_ref": "reporting-warehouse",
+          "statement": "recipes/settlement-review/operations/write-comparisons.statement.json"
+        },
+        {
+          "slug": "write-totals",
+          "data_source_ref": "reporting-warehouse",
+          "statement": "recipes/settlement-review/operations/write-totals.statement.json"
+        },
+        {
+          "slug": "inspect-comparisons",
+          "data_source_ref": "reporting-warehouse",
+          "statement": "recipes/settlement-review/operations/inspect-comparisons.statement.json"
+        },
+        {
+          "slug": "inspect-totals",
+          "data_source_ref": "reporting-warehouse",
+          "statement": "recipes/settlement-review/operations/inspect-totals.statement.json"
+        }
+      ],
+      "docs": "recipes/settlement-review/README.md",
+      "setup_assets": [
+        "recipes/settlement-review/postgres-targets.sql",
+        "recipes/settlement-review/observed-comparisons.json",
+        "recipes/settlement-review/observed-totals.json"
+      ]
     }
   ],
   "public_cli": {

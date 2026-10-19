@@ -31,8 +31,8 @@ def validate_repository(root):
     for path in manifest.get('shared_assets', []):
         load(root, path)
     recipes = manifest['recipes']
-    if len(recipes) != 5 or len({r['slug'] for r in recipes}) != 5:
-        raise ValueError('the initial collection requires five distinct recipes')
+    if not recipes or len({r['slug'] for r in recipes}) != len(recipes):
+        raise ValueError('the collection requires distinct recipes')
     for recipe in recipes:
         spec_path = asset(root, recipe['spec'])
         spec = json.loads(spec_path.read_text())

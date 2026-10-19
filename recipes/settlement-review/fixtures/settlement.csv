@@ -1,0 +1,4 @@
+evaluation_id,batch_id,line_id,provider_event_id,event_type,order_id,currency,reported_gross,reported_fee,reported_net
+settlement-demo-001,batch-001,line-001,capture-001,capture,order-001,EUR,10000,300,9700
+settlement-demo-001,batch-001,line-002,refund-001,refund,order-001,EUR,-1500,50,-1550
+settlement-demo-001,batch-001,line-003,unknown-001,capture,order-002,EUR,2500,0,2500

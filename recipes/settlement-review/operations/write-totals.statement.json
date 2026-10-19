@@ -1,0 +1,4 @@
+{
+  "type": "postgres",
+  "sql": "INSERT INTO settlement_totals (evaluation_id, batch_id, currency, line_count, matched_count, unmatched_count, reported_gross, reported_fee, reported_net, matched_ledger_gross, matched_difference) SELECT evaluation_id, batch_id, currency, line_count, matched_count, unmatched_count, reported_gross, reported_fee, reported_net, matched_ledger_gross, matched_difference FROM input ON CONFLICT (evaluation_id, batch_id, currency) DO UPDATE SET line_count = EXCLUDED.line_count, matched_count = EXCLUDED.matched_count, unmatched_count = EXCLUDED.unmatched_count, reported_gross = EXCLUDED.reported_gross, reported_fee = EXCLUDED.reported_fee, reported_net = EXCLUDED.reported_net, matched_ledger_gross = EXCLUDED.matched_ledger_gross, matched_difference = EXCLUDED.matched_difference"
+}

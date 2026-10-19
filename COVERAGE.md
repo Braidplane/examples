@@ -1,16 +1,17 @@
 # Coverage and composition friction
 
-Qualified 2026-10-18 against the canonical source revision and exact spec hashes in manifest.json. These observations describe synthetic non-production compositions, not customer demand, production readiness or vendor parity.
+The original five recipes were qualified 2026-10-18 against the source revision in manifest.json. Advanced settlement review retains its own BP-1011 source checkpoint and historical run, rechecked on 2026-10-19. Exact spec hashes and evidence are recorded per recipe. These observations describe synthetic non-production compositions, not customer demand, production readiness or vendor parity.
 
 | Recipe | Source boundary | Transform / relation pattern | Sink boundary | Observed qualification |
 | --- | --- | --- | --- | --- |
 | HTTP customer enrichment | HTTP JSON array plus PostgreSQL rows | Named orders/customers inputs; left join; explicit unmatched fallback | Rows serialized as JSON object content in S3-compatible storage | Real local HTTP/PostgreSQL/SeaweedFS execution; two expected rows independently read back |
 | Settlement/ledger reconciliation | S3 CSV normalized to rows; PostgreSQL integer ledger | Named inputs; signed integer-cent arithmetic; two left/anti-join branches | Two independent BigQuery append writes | Runtime execution against a local BigQuery protocol mock; five exact records and 1800/1550/250-cent totals independently read back. Google Cloud and public connection-creation flow unexercised |
+| Advanced settlement review (BP-1011) | S3 CSV and PostgreSQL ledger | Seven steps: signed normalization, composite-key nullable left join, grouped totals | Two independent PostgreSQL upserts | Historical 18 October local rehearsal; 3 comparisons and 1 total independently read back, archive hashes/checker rechecked on 19 October. No new runtime run or hosted acceptance |
 | Spreadsheet contact overrides | S3 XLSX worksheet/range normalized to rows; PostgreSQL contacts | Named inputs; NULLIF/COALESCE precedence; blank override retains source value | HubSpot keyed contact upsert | Runtime execution with a local CRM protocol mock, unique-property prerequisite and direct provider readback. Real account entitlements/workflows/delivery not exercised |
 | Document inventory projection | MongoDB JSON document array | Supported row normalization; nonnegative inventory filter; rows projection | MySQL primary-key insert/update using input relation | Local MongoDB/MySQL execution and exact two-row independent table comparison |
 | Opaque file archive | HTTP octet-stream runtime file | No relational transform or re-encoding | S3-compatible format:file write | Local execution and independent 31-byte/SHA256 equality |
 
-All five specs passed local CLI validation and target-aware validation before deployment. Each execution.json retains the run, executed spec hash, observed step events and independent destination comparison; validation.json and the raw-file hash remain separate. Diagnostics do not retain customer values for historical inspection. Existing checkpoint/replay storage is a different capability.
+The initial five specs passed local CLI validation and target-aware validation before deployment. The sixth, advanced settlement review passed fresh public alpha.6 offline validation and retains its separate historical successful BP-1011 execution; no new target validation is claimed. Each execution.json retains the run, executed spec hash, observed step events and independent destination comparison; validation.json and the raw-file hash remain separate. Diagnostics do not retain customer values for historical inspection. Existing checkpoint/replay storage is a different capability.
 
 ## Friction and limits
 

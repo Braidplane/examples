@@ -1,11 +1,12 @@
 # Braidplane pipeline examples
 
-Five synthetic workflows for authoring, adapting and inspecting Braidplane pipelines. Use the same [manifest](manifest.json) and canonical files whether you are a human or an agent.
+Six synthetic workflows for authoring, adapting and inspecting Braidplane pipelines. Use the same [manifest](manifest.json) and canonical files whether you are a human or an agent.
 
 | Task | Connectors and composition | Start here |
 | --- | --- | --- |
 | Enrich API orders, keeping unknown customers | HTTP + PostgreSQL left join → S3 JSON | [Customer enrichment](recipes/http-customer-enrichment/README.md) |
 | Reconcile payments/refunds and unmatched ledger entries | S3 CSV + PostgreSQL → two BigQuery append branches | [Settlement reconciliation](recipes/settlement-ledger-reconciliation/README.md) |
+| Trace the richer BP-1011 demo through normalization, comparison and totals | S3 CSV + PostgreSQL → two PostgreSQL upserts (seven steps) | [Advanced settlement review](recipes/settlement-review/README.md) |
 | Apply spreadsheet overrides before CRM upsert | S3 XLSX + PostgreSQL precedence join → HubSpot | [Contact overrides](recipes/spreadsheet-contact-overrides/README.md) |
 | Project document inventory into relational reporting | MongoDB JSON array → SQL rows → MySQL | [Inventory projection](recipes/document-inventory-projection/README.md) |
 | Archive a file without parsing its bytes | HTTP file → S3 file | [File archive](recipes/opaque-file-archive/README.md) |
@@ -14,9 +15,9 @@ Read [setup and execution](GUIDE.md), [coverage and friction](COVERAGE.md), and 
 
 ## Compatibility and evidence
 
-The collection passed offline/ref-aware validation and controlled local runtime execution at the source revision in manifest.json. PostgreSQL, MongoDB, MySQL and S3-compatible storage were local containers; HTTP was a synthetic fixture. BigQuery and HubSpot were local protocol mocks. Their receipts do not establish Google Cloud or HubSpot account acceptance, provider retries, or production readiness.
+The initial five recipes passed offline/ref-aware validation and controlled local runtime execution at the source revision in manifest.json. The advanced settlement review preserves its separate historical BP-1011 rehearsal and source checkpoint in its execution.json. PostgreSQL, MongoDB, MySQL and S3-compatible storage were local containers; HTTP was a synthetic fixture. BigQuery and HubSpot were local protocol mocks. Their receipts do not establish Google Cloud or HubSpot account acceptance, provider retries, or production readiness.
 
-The published [CLI v0.1.0-alpha.6](https://github.com/Braidplane/cli/releases/tag/v0.1.0-alpha.6) validates all five included specs. Both a fresh Go installation and the verified macOS ARM64 release archive passed; [public CLI validation](public-cli-validation.json) records the exact source and checks. Runtime/target-validation receipts retain their original source revision and provider limits. Public alpha.5 rejects the left joins used here; use the version pinned in cli-version.txt.
+The published [CLI v0.1.0-alpha.6](https://github.com/Braidplane/cli/releases/tag/v0.1.0-alpha.6) validates all six included specs. Both a fresh Go installation and the verified macOS ARM64 release archive passed; [public CLI validation](public-cli-validation.json) records the original five-recipe checks; the advanced recipe's validation.json records its additional checks. Runtime/target-validation receipts retain their original source revision and provider limits. Public alpha.5 rejects the left joins used here; use the version pinned in cli-version.txt.
 
 With the Go toolchain pinned in .go-version available, install the public CLI and check the collection (its install directory must be on PATH):
 

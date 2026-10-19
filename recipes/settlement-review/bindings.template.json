@@ -1,0 +1,19 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "settlement-review",
+  "bindings": [
+    {
+      "logical_ref": "settlement-file",
+      "data_source_slug": "<your-s3-source-slug>"
+    },
+    {
+      "logical_ref": "payment-ledger",
+      "data_source_slug": "<your-postgres-source-slug>"
+    },
+    {
+      "logical_ref": "reporting-warehouse",
+      "data_source_slug": "<your-separate-postgres-destination-slug>"
+    }
+  ]
+}

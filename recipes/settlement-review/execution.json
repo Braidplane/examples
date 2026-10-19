@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T13:37:03.205171+02:00",
+  "execution_status": "succeeded",
+  "scope": "Historical BP-1011 isolated local rehearsal, rechecked on 2026-10-19; no new execution claimed",
+  "provider_boundary": "Local S3-compatible fixture and separate PostgreSQL source/reporting databases; no Google Cloud or hosted acceptance",
+  "source_checkpoint": "c3b0745cde0f94124ed6cb4fc6ae7c5408b27263",
+  "source_asset_revision": "9d449eba7933526420ac594f8311f6875e88d83e",
+  "source_fixture_commit": "c244e269c32adbc84943f6c78a8929ac15103f29",
+  "spec_file_sha256": "b340b70505d8d153c10b3890b383e5b46bba8dcdfc832ee5f82f6f39cfb4044a",
+  "pipeline_slug": "settlement-review",
+  "run_slug": "settlement-review-20261018113700-9na9qh",
+  "executed_spec_hash": "642833f5a8fa70eab5f5b75e70d523baf6e70d0c44a2da41fb23bb854a3c2fe3",
+  "events": [
+    {
+      "at": "2026-10-18T13:37:01.051619+02:00",
+      "status": "running",
+      "step": null,
+      "type": "run_started"
+    },
+    {
+      "at": "2026-10-18T13:37:01.056226+02:00",
+      "status": "running",
+      "step": "read-settlement",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:01.309514+02:00",
+      "status": "succeeded",
+      "step": "read-settlement",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:01.309545+02:00",
+      "status": "running",
+      "step": "read-ledger",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:01.356586+02:00",
+      "status": "succeeded",
+      "step": "read-ledger",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:01.356598+02:00",
+      "status": "running",
+      "step": "normalize-settlement",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:02.061901+02:00",
+      "status": "succeeded",
+      "step": "normalize-settlement",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:02.061932+02:00",
+      "status": "running",
+      "step": "compare-settlement",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:02.197547+02:00",
+      "status": "succeeded",
+      "step": "compare-settlement",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:02.197593+02:00",
+      "status": "running",
+      "step": "batch-totals",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:02.255016+02:00",
+      "status": "succeeded",
+      "step": "batch-totals",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:02.255041+02:00",
+      "status": "running",
+      "step": "write-comparisons",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:03.110177+02:00",
+      "status": "succeeded",
+      "step": "write-comparisons",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:03.110179+02:00",
+      "status": "running",
+      "step": "write-totals",
+      "type": "step_started"
+    },
+    {
+      "at": "2026-10-18T13:37:03.205165+02:00",
+      "status": "succeeded",
+      "step": "write-totals",
+      "type": "step_succeeded"
+    },
+    {
+      "at": "2026-10-18T13:37:03.205171+02:00",
+      "status": "succeeded",
+      "step": null,
+      "type": "run_completed"
+    }
+  ],
+  "steps": [
+    {
+      "step": "read-settlement",
+      "kind": "query",
+      "result_type": "S3",
+      "vendor_type": "s3",
+      "observed_metadata": {
+        "column_names": [
+          "evaluation_id",
+          "batch_id",
+          "line_id",
+          "provider_event_id",
+          "event_type",
+          "order_id",
+          "currency",
+          "reported_gross",
+          "reported_fee",
+          "reported_net"
+        ],
+        "kind": "file_read",
+        "row_count": 3
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "read-ledger",
+      "kind": "query",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "column_names": [
+          "provider_event_id",
+          "event_type",
+          "order_id",
+          "currency",
+          "ledger_gross"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "normalize-settlement",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "evaluation_id",
+          "batch_id",
+          "line_id",
+          "provider_event_id",
+          "event_type",
+          "order_id",
+          "currency",
+          "reported_gross",
+          "reported_fee",
+          "reported_net"
+        ],
+        "kind": "rows",
+        "row_count": 3
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "compare-settlement",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "evaluation_id",
+          "batch_id",
+          "line_id",
+          "provider_event_id",
+          "event_type",
+          "order_id",
+          "currency",
+          "reported_gross",
+          "reported_fee",
+          "reported_net",
+          "ledger_order_id",
+          "ledger_gross",
+          "difference",
+          "unmatched"
+        ],
+        "kind": "rows",
+        "row_count": 3
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "batch-totals",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "evaluation_id",
+          "batch_id",
+          "currency",
+          "line_count",
+          "matched_count",
+          "unmatched_count",
+          "reported_gross",
+          "reported_fee",
+          "reported_net",
+          "matched_ledger_gross",
+          "matched_difference"
+        ],
+        "kind": "rows",
+        "row_count": 1
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "write-comparisons",
+      "kind": "sink",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "kind": "rows",
+        "row_count": 3
+      },
+      "delivery_outcome": "confirmed"
+    },
+    {
+      "step": "write-totals",
+      "kind": "sink",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "kind": "rows",
+        "row_count": 1
+      },
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Archived independent PostgreSQL reads; archive hashes verified, original checker rerun, and publication checker compares every field with expected.json",
+    "expected_output_match": true,
+    "comparison_row_count": 3,
+    "total_row_count": 1,
+    "readback_assets": [
+      "recipes/settlement-review/observed-comparisons.json",
+      "recipes/settlement-review/observed-totals.json"
+    ]
+  },
+  "archive_sha256": {
+    "run-fixed.json": "3bb25f42a704bbf8c24b54a30f959d753f10cbed465886fdee42068f00b30b00",
+    "comparisons.json": "1707e621177e9b75cf330dcf387a42043853844e18014fde1ff3bb5c35a25a45",
+    "totals.json": "b75e0ad60535222cf1845f36ee11d6916bbe3b8bbcbf9eb5dc637064fe7f54f4",
+    "acceptance.json": "e089a81344594c2ff2b19d3a47b3fd4ed3553e5144e13476068e8356dd9358a4"
+  },
+  "qualification_asset_hashes": {
+    "recipes/settlement-review/expected.json": "29aca6c8626e7d1c87f4decefc4441d1e47f1de1df978e96f5e68abd7d04bf79",
+    "recipes/settlement-review/fixtures/settlement.csv": "06aadd46f40a80fac9d7bceb1255653991d553f23b95eaace5c2a46513f6110b",
+    "recipes/settlement-review/fixtures/source.sql": "591b3cfcd355132adcc25f568e36fe381f3e8b10b47342c6d8d1a54cb78d6d51",
+    "recipes/settlement-review/observed-comparisons.json": "1707e621177e9b75cf330dcf387a42043853844e18014fde1ff3bb5c35a25a45",
+    "recipes/settlement-review/observed-totals.json": "b75e0ad60535222cf1845f36ee11d6916bbe3b8bbcbf9eb5dc637064fe7f54f4",
+    "recipes/settlement-review/operations/inspect-comparisons.statement.json": "3027543fb4c89ad65245fdf4155b44fffa63491fff5faca36dbc1f8a162d8355",
+    "recipes/settlement-review/operations/inspect-totals.statement.json": "a759d3da20bad1bf9083556ae6eb3df15abc50d5d20f517446e98400a7a9cfec",
+    "recipes/settlement-review/operations/read-ledger.statement.json": "5057a6d89ec60391cdc53820ad705103eab5cee817f725b6da3bb1105ebd37ba",
+    "recipes/settlement-review/operations/read-settlement.statement.json": "638284e2557797b3a90c9e63ddfe44524f7a3d2e382ef0f3dcf038c578d04551",
+    "recipes/settlement-review/operations/write-comparisons.statement.json": "2a9fc80c35ca02e5327e3c6ae922c98fcb8434ce533880184e32482e4498435a",
+    "recipes/settlement-review/operations/write-totals.statement.json": "9cf91556f1edcbd21d7d65bf1e782f135cce31241f990c6e2cb3936bfdeb853b",
+    "recipes/settlement-review/postgres-targets.sql": "f6a8bbee15be9d7c2129045292d583118a59ff504175be79346080e30d1357cf"
+  },
+  "identity_limit": "Input hashes reconstructed from the preserved BP-1011 source checkpoint on 2026-10-19, not persisted immutable operation/binding snapshots in the run. Source checkpoint is a post-run checkpoint, not proof of the running binary revision. No new target-aware validation or execution is claimed.",
+  "limits": [
+    "EUR-only synthetic investigation, not accounting correction or complete reconciliation",
+    "Two independent upserts are not atomic; naturally_idempotent assumes stable keys and no side-effecting triggers",
+    "No hosted acceptance or completed BP-1011 film claim"
+  ],
+  "source_fixture_spec_blob_sha1": "8d089c0fff952225f469183cf2948101717dc6ef"
+}

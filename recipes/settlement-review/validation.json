@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-10-19",
+  "kind": "offline_validation",
+  "result": "passed",
+  "cli_version": "v0.1.0-alpha.6",
+  "cli_source_revision": "2b2d699e1a62154fcfaa9938239d31daa2be5221",
+  "spec_sha256": "b340b70505d8d153c10b3890b383e5b46bba8dcdfc832ee5f82f6f39cfb4044a",
+  "scope": "Fresh offline validation with both verified macOS ARM64 release binary and public Go install; historical target execution is separate in execution.json"
+}
