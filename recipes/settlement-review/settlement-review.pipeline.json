@@ -1,0 +1,565 @@
+{
+  "metadata": {
+    "slug": "settlement-review",
+    "name": "Settlement Review"
+  },
+  "steps": [
+    {
+      "kind": "query",
+      "slug": "read-settlement",
+      "query": {
+        "data_source_ref": "settlement-file",
+        "operation_type": "s3",
+        "operation_ref": "read-settlement",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "provider_event_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "event_type",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "order_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "query",
+      "slug": "read-ledger",
+      "query": {
+        "data_source_ref": "payment-ledger",
+        "operation_type": "sql",
+        "operation_ref": "read-ledger",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "provider_event_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "event_type",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "order_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "ledger_gross",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "normalize-settlement",
+      "transform": {
+        "inputs": {
+          "settlement": "read-settlement"
+        },
+        "sql": "SELECT evaluation_id, batch_id, line_id, provider_event_id, event_type, order_id, currency, CAST(reported_gross AS SIGNED) AS reported_gross, CAST(reported_fee AS SIGNED) AS reported_fee, CAST(reported_net AS SIGNED) AS reported_net FROM settlement",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "provider_event_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "event_type",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "order_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "compare-settlement",
+      "transform": {
+        "inputs": {
+          "settlement": "normalize-settlement",
+          "ledger": "read-ledger"
+        },
+        "sql": "SELECT s.evaluation_id AS evaluation_id, s.batch_id AS batch_id, s.line_id AS line_id, s.provider_event_id AS provider_event_id, s.event_type AS event_type, s.order_id AS order_id, s.currency AS currency, s.reported_gross AS reported_gross, s.reported_fee AS reported_fee, s.reported_net AS reported_net, l.order_id AS ledger_order_id, l.ledger_gross AS ledger_gross, s.reported_gross - l.ledger_gross AS difference, CASE WHEN l.ledger_gross IS NULL THEN 1 ELSE 0 END AS unmatched FROM settlement s LEFT JOIN ledger l ON s.provider_event_id = l.provider_event_id AND s.event_type = l.event_type AND s.currency = l.currency ORDER BY line_id",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "provider_event_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "event_type",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "order_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "ledger_order_id",
+              "type": "string",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "ledger_gross",
+              "type": "integer",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "difference",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "unmatched",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "transform",
+      "slug": "batch-totals",
+      "transform": {
+        "inputs": {
+          "comparison": "compare-settlement"
+        },
+        "sql": "SELECT evaluation_id, batch_id, currency, COUNT(*) AS line_count, COUNT(ledger_gross) AS matched_count, SUM(unmatched) AS unmatched_count, SUM(reported_gross) AS reported_gross, SUM(reported_fee) AS reported_fee, SUM(reported_net) AS reported_net, SUM(ledger_gross) AS matched_ledger_gross, SUM(difference) AS matched_difference FROM comparison GROUP BY evaluation_id, batch_id, currency",
+        "output_kind": "rows",
+        "output_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_count",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "matched_count",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "unmatched_count",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "matched_ledger_gross",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "matched_difference",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "write-comparisons",
+      "sink": {
+        "idempotency_class": "naturally_idempotent",
+        "input": "compare-settlement",
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "provider_event_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "event_type",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "order_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "ledger_order_id",
+              "type": "string",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "ledger_gross",
+              "type": "integer",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "difference",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "unmatched",
+              "type": "integer",
+              "required": true
+            }
+          ]
+        },
+        "data_source_ref": "reporting-warehouse",
+        "operation_type": "sql",
+        "operation_ref": "write-comparisons"
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "write-totals",
+      "sink": {
+        "idempotency_class": "naturally_idempotent",
+        "input": "batch-totals",
+        "input_contract": {
+          "representation": "rows",
+          "fields": [
+            {
+              "name": "evaluation_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "batch_id",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "line_count",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "matched_count",
+              "type": "integer",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "unmatched_count",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_gross",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_fee",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "reported_net",
+              "type": "number",
+              "required": true,
+              "nullable": false
+            },
+            {
+              "name": "matched_ledger_gross",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            },
+            {
+              "name": "matched_difference",
+              "type": "number",
+              "required": false,
+              "nullable": true
+            }
+          ]
+        },
+        "data_source_ref": "reporting-warehouse",
+        "operation_type": "sql",
+        "operation_ref": "write-totals"
+      }
+    }
+  ]
+}

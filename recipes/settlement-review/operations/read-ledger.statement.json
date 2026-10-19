@@ -1,0 +1,4 @@
+{
+  "type": "postgres",
+  "sql": "SELECT provider_event_id,event_type,order_id,currency,ledger_gross FROM settlement_demo_ledger ORDER BY provider_event_id"
+}

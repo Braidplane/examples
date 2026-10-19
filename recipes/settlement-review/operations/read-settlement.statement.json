@@ -1,0 +1,7 @@
+{
+  "type": "s3",
+  "operation": "read",
+  "key": "generated/settlement-review/settlement.csv",
+  "format": "csv",
+  "has_header": true
+}

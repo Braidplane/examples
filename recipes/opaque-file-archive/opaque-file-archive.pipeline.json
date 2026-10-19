@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "slug": "opaque-file-archive",
+    "name": "Archive an HTTP-delivered file in object storage without changing its bytes"
+  },
+  "steps": [
+    {
+      "kind": "query",
+      "slug": "download-file",
+      "query": {
+        "data_source_ref": "document-api",
+        "operation_type": "http",
+        "operation_inline": {
+          "method": "GET",
+          "path": "/receipt.bin"
+        },
+        "output_contract": {
+          "representation": "file"
+        }
+      }
+    },
+    {
+      "kind": "sink",
+      "slug": "archive-file",
+      "sink": {
+        "input": "download-file",
+        "data_source_ref": "document-archive",
+        "operation_type": "s3",
+        "input_contract": {
+          "representation": "file"
+        },
+        "idempotency_class": "naturally_idempotent",
+        "operation_ref": "opaque-file-archive-write",
+        "config": {
+          "key": "recipes/receipt.bin",
+          "format": "file",
+          "overwrite": true
+        }
+      }
+    }
+  ]
+}

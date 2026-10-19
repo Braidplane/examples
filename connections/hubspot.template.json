@@ -1,0 +1,12 @@
+{
+  "type": "hubspot",
+  "name": "Recipe test CRM",
+  "slug": "recipe-hubspot",
+  "read_only": false,
+  "config": {
+    "timeout_seconds": 30
+  },
+  "credentials": {
+    "private_app_token_file": "<absolute-path-to-scoped-test-token-file>"
+  }
+}

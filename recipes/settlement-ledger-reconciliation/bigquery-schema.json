@@ -1,0 +1,27 @@
+[
+  {
+    "name": "transaction_id",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "settled_cents",
+    "type": "INTEGER",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "ledger_cents",
+    "type": "INTEGER",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "difference_cents",
+    "type": "INTEGER",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "reconciliation_status",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  }
+]

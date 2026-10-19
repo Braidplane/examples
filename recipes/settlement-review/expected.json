@@ -1,0 +1,67 @@
+{
+  "comparisons": [
+    {
+      "evaluation_id": "settlement-demo-001",
+      "batch_id": "batch-001",
+      "line_id": "line-001",
+      "provider_event_id": "capture-001",
+      "event_type": "capture",
+      "order_id": "order-001",
+      "currency": "EUR",
+      "reported_gross": 10000,
+      "reported_fee": 300,
+      "reported_net": 9700,
+      "ledger_order_id": "order-001",
+      "ledger_gross": 10000,
+      "difference": 0,
+      "unmatched": 0
+    },
+    {
+      "evaluation_id": "settlement-demo-001",
+      "batch_id": "batch-001",
+      "line_id": "line-002",
+      "provider_event_id": "refund-001",
+      "event_type": "refund",
+      "order_id": "order-001",
+      "currency": "EUR",
+      "reported_gross": -1500,
+      "reported_fee": 50,
+      "reported_net": -1550,
+      "ledger_order_id": "order-001",
+      "ledger_gross": -2000,
+      "difference": 500,
+      "unmatched": 0
+    },
+    {
+      "evaluation_id": "settlement-demo-001",
+      "batch_id": "batch-001",
+      "line_id": "line-003",
+      "provider_event_id": "unknown-001",
+      "event_type": "capture",
+      "order_id": "order-002",
+      "currency": "EUR",
+      "reported_gross": 2500,
+      "reported_fee": 0,
+      "reported_net": 2500,
+      "ledger_order_id": null,
+      "ledger_gross": null,
+      "difference": null,
+      "unmatched": 1
+    }
+  ],
+  "totals": [
+    {
+      "evaluation_id": "settlement-demo-001",
+      "batch_id": "batch-001",
+      "currency": "EUR",
+      "line_count": 3,
+      "matched_count": 2,
+      "unmatched_count": 1,
+      "reported_gross": 11000,
+      "reported_fee": 350,
+      "reported_net": 10650,
+      "matched_ledger_gross": 8000,
+      "matched_difference": 500
+    }
+  ]
+}

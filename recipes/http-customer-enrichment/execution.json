@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T18:39:37.253716+02:00",
+  "execution_status": "succeeded",
+  "scope": "Controlled isolated non-production local execution",
+  "provider_boundary": "Local synthetic HTTP provider, PostgreSQL and SeaweedFS S3-compatible storage",
+  "runtime_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_file_sha256": "fba28980ccbaf843504c87863a43e42d8dd73510767b10b0f7c4f545ea33199f",
+  "pipeline_slug": "http-customer-enrichment",
+  "run_slug": "bp1207-http-02",
+  "executed_spec_hash": "dd3d903df2886816990da1241037b6cb72870523401262213c6108b541dc1759",
+  "events": [
+    {
+      "at": "2026-10-18T18:39:36.030636+02:00",
+      "type": "run_started",
+      "step": null,
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:39:36.034764+02:00",
+      "type": "step_started",
+      "step": "read-orders",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:39:36.072218+02:00",
+      "type": "step_succeeded",
+      "step": "read-orders",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:39:36.072252+02:00",
+      "type": "step_started",
+      "step": "read-customers",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:39:37.005661+02:00",
+      "type": "step_succeeded",
+      "step": "read-customers",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:39:37.005672+02:00",
+      "type": "step_started",
+      "step": "enrich-orders",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:39:37.091428+02:00",
+      "type": "step_succeeded",
+      "step": "enrich-orders",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:39:37.091441+02:00",
+      "type": "step_started",
+      "step": "export-orders",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:39:37.25371+02:00",
+      "type": "step_succeeded",
+      "step": "export-orders",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:39:37.253716+02:00",
+      "type": "run_completed",
+      "step": null,
+      "status": "succeeded"
+    }
+  ],
+  "steps": [
+    {
+      "step": "read-orders",
+      "kind": "query",
+      "result_type": "HTTP",
+      "vendor_type": "http",
+      "observed_metadata": {
+        "kind": "http_response",
+        "status_code": 200
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "read-customers",
+      "kind": "query",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "column_names": [
+          "customer_id",
+          "segment"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "enrich-orders",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "order_id",
+          "customer_id",
+          "amount_cents",
+          "segment"
+        ],
+        "kind": "rows",
+        "row_count": 2
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "export-orders",
+      "kind": "sink",
+      "result_type": "S3",
+      "vendor_type": "s3",
+      "observed_metadata": {
+        "kind": "file_write"
+      },
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Independent destination read, normalized and compared with expected.json",
+    "expected_output_match": true,
+    "row_count": 2,
+    "normalized_output_sha256": "6230e8e336cbdaf16486b3ec7def75a57f47bd46d0f131166a20a8ebcf09ae58"
+  },
+  "limits": [
+    "No production readiness or cloud-provider acceptance claim",
+    "Run success, declared contracts, static Proof and destination effects are separate evidence",
+    "No retained payload inspection, artifact handoff, implicit trigger or universal replay guarantee"
+  ],
+  "qualification_asset_hashes": {
+    "recipes/http-customer-enrichment/expected.json": "6f6b75283fa7f18eba625af2c6bd169918b40bc7b3a30284af3c5255904c1e5e",
+    "recipes/http-customer-enrichment/fixtures/customers.json": "a51afa2939866bdf3aeab84e3467ddc53f1717ec81cb670f0cef2454a30efb53",
+    "recipes/http-customer-enrichment/fixtures/orders.json": "1120c8bac4c08b6338f0a6037df61b779cb92b59161cc1a8856cdaabe1f7414b",
+    "recipes/http-customer-enrichment/fixtures/source.sql": "b00512f7c2de73f0ad8931b4c64f33cb2e2ed3737de40590bf1246db640ded31",
+    "recipes/http-customer-enrichment/operations/write.statement.json": "689d95725866f520591e96eef331d901a7c86d484c7eeb16127298fa978dc6b9"
+  },
+  "identity_limit": "Asset hashes record the qualification setup files; they are not persisted immutable saved-operation or provider-binding snapshots inside this runtime run."
+}

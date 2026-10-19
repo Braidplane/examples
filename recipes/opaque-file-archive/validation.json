@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-10-18",
+  "kind": "offline_and_environment_validation",
+  "result": "passed",
+  "cli_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_sha256": "227dcb50508263718c8a5cdf1491a669d68bd9498461607374d91c54bbb936ee",
+  "scope": "Source-built CLI local validation and ref-aware validation before deployment; public alpha.5 is incompatible with LEFT JOIN recipes"
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "order_id": "o-1",
+    "customer_id": "c-1",
+    "amount_cents": "not-an-integer"
+  },
+  {
+    "order_id": "o-2",
+    "customer_id": "c-missing",
+    "amount_cents": 500
+  }
+]

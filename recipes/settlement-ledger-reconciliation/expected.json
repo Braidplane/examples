@@ -1,0 +1,37 @@
+[
+  {
+    "transaction_id": "payment-1",
+    "settled_cents": 1200,
+    "ledger_cents": 1200,
+    "difference_cents": 0,
+    "reconciliation_status": "matched"
+  },
+  {
+    "transaction_id": "payment-2",
+    "settled_cents": 500,
+    "ledger_cents": 450,
+    "difference_cents": 50,
+    "reconciliation_status": "amount-mismatch"
+  },
+  {
+    "transaction_id": "payment-3",
+    "settled_cents": 300,
+    "ledger_cents": 0,
+    "difference_cents": 300,
+    "reconciliation_status": "missing-ledger"
+  },
+  {
+    "transaction_id": "payment-4",
+    "settled_cents": 0,
+    "ledger_cents": 100,
+    "difference_cents": -100,
+    "reconciliation_status": "missing-settlement"
+  },
+  {
+    "transaction_id": "refund-1",
+    "settled_cents": -200,
+    "ledger_cents": -200,
+    "difference_cents": 0,
+    "reconciliation_status": "matched"
+  }
+]

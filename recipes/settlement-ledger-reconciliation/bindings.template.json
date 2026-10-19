@@ -1,0 +1,19 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "settlement-ledger-reconciliation",
+  "bindings": [
+    {
+      "logical_ref": "settlement-files",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "ledger-db",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "reconciliation-warehouse",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    }
+  ]
+}

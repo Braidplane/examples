@@ -1,0 +1,15 @@
+{
+  "type": "mysql",
+  "name": "Recipe inventory reporting",
+  "slug": "recipe-mysql",
+  "read_only": false,
+  "config": {
+    "host": "<your-database-host>",
+    "port": 3306,
+    "database": "<your-isolated-database>"
+  },
+  "credentials": {
+    "username": "<your-table-writer>",
+    "password_file": "<absolute-path-to-password-file>"
+  }
+}

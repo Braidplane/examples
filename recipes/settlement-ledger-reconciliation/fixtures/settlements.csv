@@ -1,0 +1,5 @@
+transaction_id,amount_cents
+payment-1,1200
+refund-1,-200
+payment-2,500
+payment-3,300

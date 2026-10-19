@@ -1,0 +1,16 @@
+{
+  "type": "mongodb",
+  "name": "Recipe inventory documents",
+  "slug": "recipe-mongodb",
+  "read_only": true,
+  "config": {
+    "host": "<your-database-host>",
+    "port": 27017,
+    "database": "<your-isolated-database>",
+    "auth_database": "admin"
+  },
+  "credentials": {
+    "username": "<your-read-only-user>",
+    "password_file": "<absolute-path-to-password-file>"
+  }
+}

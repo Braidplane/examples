@@ -1,0 +1,18 @@
+[
+  {
+    "transaction_id": "payment-1",
+    "amount_cents": 1200
+  },
+  {
+    "transaction_id": "refund-1",
+    "amount_cents": -200
+  },
+  {
+    "transaction_id": "payment-2",
+    "amount_cents": 450
+  },
+  {
+    "transaction_id": "payment-4",
+    "amount_cents": 100
+  }
+]

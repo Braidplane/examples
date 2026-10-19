@@ -1,0 +1,19 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "spreadsheet-contact-overrides",
+  "bindings": [
+    {
+      "logical_ref": "override-workbook",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "contact-db",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "contact-crm",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    }
+  ]
+}

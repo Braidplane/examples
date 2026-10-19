@@ -1,0 +1,15 @@
+{
+  "project": "<your-project>",
+  "environment": "<your-enabled-environment>",
+  "pipeline": "opaque-file-archive",
+  "bindings": [
+    {
+      "logical_ref": "document-api",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    },
+    {
+      "logical_ref": "document-archive",
+      "data_source_slug": "<your-isolated-connection-slug>"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "object_type": "contacts",
+  "operation": "upsert",
+  "id_property": "external_customer_id",
+  "property_mapping": {
+    "customer_id": "external_customer_id",
+    "email": "email",
+    "first_name": "firstname"
+  },
+  "rows": "{{input}}",
+  "type": "hubspot"
+}

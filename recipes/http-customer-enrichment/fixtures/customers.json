@@ -1,0 +1,10 @@
+[
+  {
+    "customer_id": "c-1",
+    "segment": "wholesale"
+  },
+  {
+    "customer_id": "c-2",
+    "segment": "retail"
+  }
+]

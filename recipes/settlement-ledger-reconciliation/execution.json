@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-18T18:43:03.507122+02:00",
+  "execution_status": "succeeded",
+  "scope": "Controlled isolated non-production local execution",
+  "provider_boundary": "Local SeaweedFS CSV, PostgreSQL and BigQuery protocol mock seeded through the service fixture boundary; public provider setup and Google Cloud not exercised",
+  "runtime_source_revision": "df8422e928f3ed8ce5980dfc334ca1b17206879c",
+  "spec_file_sha256": "b3749b5769884e9e64e9e27c7cb255d3c2c8f4451069151fd2c032565497ec00",
+  "pipeline_slug": "settlement-ledger-reconciliation",
+  "run_slug": "bp1207-reconciliation-01",
+  "executed_spec_hash": "1a113cf5ed94c4792d5d39c63f9bf7ff48a9dfe4cb0da4ed4c1e3b3bec72b80c",
+  "events": [
+    {
+      "at": "2026-10-18T18:43:02.272082+02:00",
+      "type": "run_started",
+      "step": null,
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:02.27385+02:00",
+      "type": "step_started",
+      "step": "read-settlements",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:02.306+02:00",
+      "type": "step_succeeded",
+      "step": "read-settlements",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:02.306016+02:00",
+      "type": "step_started",
+      "step": "read-ledger",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:02.411088+02:00",
+      "type": "step_succeeded",
+      "step": "read-ledger",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:02.411103+02:00",
+      "type": "step_started",
+      "step": "reconcile-settlements",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:02.520001+02:00",
+      "type": "step_succeeded",
+      "step": "reconcile-settlements",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:02.520019+02:00",
+      "type": "step_started",
+      "step": "find-missing-settlements",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:02.606117+02:00",
+      "type": "step_succeeded",
+      "step": "find-missing-settlements",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:02.606202+02:00",
+      "type": "step_started",
+      "step": "write-settlement-results",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:03.437128+02:00",
+      "type": "step_succeeded",
+      "step": "write-settlement-results",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:03.437137+02:00",
+      "type": "step_started",
+      "step": "write-ledger-only-results",
+      "status": "running"
+    },
+    {
+      "at": "2026-10-18T18:43:03.507118+02:00",
+      "type": "step_succeeded",
+      "step": "write-ledger-only-results",
+      "status": "succeeded"
+    },
+    {
+      "at": "2026-10-18T18:43:03.507122+02:00",
+      "type": "run_completed",
+      "step": null,
+      "status": "succeeded"
+    }
+  ],
+  "steps": [
+    {
+      "step": "read-settlements",
+      "kind": "query",
+      "result_type": "S3",
+      "vendor_type": "s3",
+      "observed_metadata": {
+        "column_names": [
+          "transaction_id",
+          "amount_cents"
+        ],
+        "kind": "file_read",
+        "row_count": 4
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "read-ledger",
+      "kind": "query",
+      "result_type": "SQL",
+      "vendor_type": "postgres",
+      "observed_metadata": {
+        "column_names": [
+          "transaction_id",
+          "amount_cents"
+        ],
+        "kind": "rows",
+        "row_count": 4
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "reconcile-settlements",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "transaction_id",
+          "settled_cents",
+          "ledger_cents",
+          "difference_cents",
+          "reconciliation_status"
+        ],
+        "kind": "rows",
+        "row_count": 4
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "find-missing-settlements",
+      "kind": "transform",
+      "result_type": "Transform",
+      "vendor_type": "transform",
+      "observed_metadata": {
+        "column_names": [
+          "transaction_id",
+          "settled_cents",
+          "ledger_cents",
+          "difference_cents",
+          "reconciliation_status"
+        ],
+        "kind": "rows",
+        "row_count": 1
+      },
+      "delivery_outcome": null
+    },
+    {
+      "step": "write-settlement-results",
+      "kind": "sink",
+      "result_type": "SQL",
+      "vendor_type": "bigquery",
+      "observed_metadata": {
+        "kind": "rows",
+        "row_count": 4
+      },
+      "delivery_outcome": "confirmed"
+    },
+    {
+      "step": "write-ledger-only-results",
+      "kind": "sink",
+      "result_type": "SQL",
+      "vendor_type": "bigquery",
+      "observed_metadata": {
+        "kind": "rows",
+        "row_count": 1
+      },
+      "delivery_outcome": "confirmed"
+    }
+  ],
+  "destination_comparison": {
+    "method": "Independent destination read, normalized and compared with expected.json",
+    "expected_output_match": true,
+    "row_count": 5,
+    "normalized_output_sha256": "100e6afae388cef4ebec8e29bcf793f38550742245bf0218cdcbabe90aff2f3b",
+    "totals_cents": {
+      "settled": 1800,
+      "ledger": 1550,
+      "difference": 250
+    }
+  },
+  "limits": [
+    "No production readiness or cloud-provider acceptance claim",
+    "Run success, declared contracts, static Proof and destination effects are separate evidence",
+    "No retained payload inspection, artifact handoff, implicit trigger or universal replay guarantee"
+  ],
+  "qualification_asset_hashes": {
+    "recipes/settlement-ledger-reconciliation/bigquery-schema.json": "dba0630431b10828baa77ffcf0b2dff0d79f02d99ca3c6cdc1940bd18561767a",
+    "recipes/settlement-ledger-reconciliation/expected.json": "7b8691daa979f6d9055eca80296913e7b4f47e4c363ddc033305fb2ff174add4",
+    "recipes/settlement-ledger-reconciliation/fixtures/ledger.json": "a3f181144c9d52bf6c398719fc53dab3c760b7e385f58de67e9fd7f95006a63d",
+    "recipes/settlement-ledger-reconciliation/fixtures/settlements.csv": "9f24bb4a5aa26c726d0939e08bf3df0afbe2abd1154f2e26cc5cf9821b6fe323",
+    "recipes/settlement-ledger-reconciliation/fixtures/source.sql": "162e575d694724c4de51580b8a15dfc7706cbed178512f612767323061195a2d",
+    "recipes/settlement-ledger-reconciliation/operations/write.statement.json": "9245f5017ecd249690f5218b27809a812b7e81cc784013bb46684241e1ffbb5f"
+  },
+  "identity_limit": "Asset hashes record the qualification setup files; they are not persisted immutable saved-operation or provider-binding snapshots inside this runtime run."
+}
