@@ -11,6 +11,8 @@ Six synthetic workflows for authoring, adapting and inspecting Braidplane pipeli
 | Project document inventory into relational reporting | MongoDB JSON array → SQL rows → MySQL | [Inventory projection](recipes/document-inventory-projection/README.md) |
 | Archive a file without parsing its bytes | HTTP file → S3 file | [File archive](recipes/opaque-file-archive/README.md) |
 
+Each recipe includes a lineage screenshot under **Run lineage**. All six images show only the lineage graph, rendered from archived local execution receipts with Braidplane’s lineage component. See [capture provenance](lineage-captures.json).
+
 Read [setup and execution](GUIDE.md), [coverage and friction](COVERAGE.md), and the selected recipe before creating resources. Each recipe includes its full spec, operations where required, logical binding template, fixtures, expected output, and separate validation/execution records.
 
 ## Compatibility and evidence

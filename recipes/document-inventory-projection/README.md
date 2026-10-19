@@ -4,6 +4,12 @@ MongoDB document array → supported row normalization → SQL projection/filter
 
 Start with the [shared setup/run/cleanup guide](../../GUIDE.md). Commands below run from the repository root. [Spec](document-inventory-projection.pipeline.json), [bindings](bindings.template.json), [offline/target validation](validation.json), and [execution evidence](execution.json) are separate canonical records.
 
+## Run lineage
+
+![Run lineage for document-inventory-projection, showing its sources, transforms and sinks](lineage.png)
+
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `bp1207-inventory-01` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
+
 ## Provider setup
 
 Use an isolated MongoDB database and MySQL schema. The MongoDB source account needs find/read on recipe_inventory; the reporting writer needs SELECT/INSERT/UPDATE only on recipe_inventory_report. Provisioning requires separate table/collection administration.

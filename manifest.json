@@ -39,7 +39,8 @@
         "recipes/http-customer-enrichment/negative/contract-mismatch.evidence.json",
         "recipes/http-customer-enrichment/negative/orders.contract-mismatch.json",
         "recipes/http-customer-enrichment/operations/write.statement.json",
-        "recipes/http-customer-enrichment/validation.json"
+        "recipes/http-customer-enrichment/validation.json",
+        "recipes/http-customer-enrichment/lineage.png"
       ],
       "operations": [
         {
@@ -85,7 +86,8 @@
         "recipes/settlement-ledger-reconciliation/fixtures/source.sql",
         "recipes/settlement-ledger-reconciliation/operations/write.statement.json",
         "recipes/settlement-ledger-reconciliation/settlement-ledger-reconciliation.pipeline.json",
-        "recipes/settlement-ledger-reconciliation/validation.json"
+        "recipes/settlement-ledger-reconciliation/validation.json",
+        "recipes/settlement-ledger-reconciliation/lineage.png"
       ],
       "operations": [
         {
@@ -133,7 +135,8 @@
         "recipes/spreadsheet-contact-overrides/operations/readback.statement.json",
         "recipes/spreadsheet-contact-overrides/operations/write.statement.json",
         "recipes/spreadsheet-contact-overrides/spreadsheet-contact-overrides.pipeline.json",
-        "recipes/spreadsheet-contact-overrides/validation.json"
+        "recipes/spreadsheet-contact-overrides/validation.json",
+        "recipes/spreadsheet-contact-overrides/lineage.png"
       ],
       "operations": [
         {
@@ -176,7 +179,8 @@
         "recipes/document-inventory-projection/expected.json",
         "recipes/document-inventory-projection/fixtures/inventory.json",
         "recipes/document-inventory-projection/mysql-target.sql",
-        "recipes/document-inventory-projection/validation.json"
+        "recipes/document-inventory-projection/validation.json",
+        "recipes/document-inventory-projection/lineage.png"
       ],
       "operations": [],
       "docs": "recipes/document-inventory-projection/README.md",
@@ -215,7 +219,8 @@
         "recipes/opaque-file-archive/negative/missing-binding.evidence.json",
         "recipes/opaque-file-archive/opaque-file-archive.pipeline.json",
         "recipes/opaque-file-archive/operations/write.statement.json",
-        "recipes/opaque-file-archive/validation.json"
+        "recipes/opaque-file-archive/validation.json",
+        "recipes/opaque-file-archive/lineage.png"
       ],
       "operations": [
         {
@@ -267,7 +272,8 @@
         "recipes/settlement-review/settlement-review.pipeline.json",
         "recipes/settlement-review/README.md",
         "recipes/settlement-review/execution.json",
-        "recipes/settlement-review/validation.json"
+        "recipes/settlement-review/validation.json",
+        "recipes/settlement-review/lineage.png"
       ],
       "operations": [
         {
@@ -334,7 +340,8 @@
     "connections/postgres.template.json",
     "connections/s3-destination.template.json",
     "connections/s3-source.template.json",
-    "public-cli-validation.json"
+    "public-cli-validation.json",
+    "lineage-captures.json"
   ],
   "fixture_server": "scripts/serve_http_fixtures.py"
 }

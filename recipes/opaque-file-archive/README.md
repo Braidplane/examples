@@ -4,6 +4,12 @@ HTTP application/octet-stream response → S3 format:file sink. No SQL, CSV pars
 
 Start with the [shared setup/run/cleanup guide](../../GUIDE.md). Commands below run from the repository root. [Spec](opaque-file-archive.pipeline.json), [bindings](bindings.template.json), [offline/target validation](validation.json), and [execution evidence](execution.json) are separate canonical records.
 
+## Run lineage
+
+![Run lineage for opaque-file-archive, showing its sources, transforms and sinks](lineage.png)
+
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `bp1207-file-01` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
+
 ## Provider setup
 
 Serve [fixtures/receipt.bin](fixtures/receipt.bin) from `/receipt.bin` on a synthetic HTTP endpoint reachable by the worker, using `Content-Type: application/octet-stream`. `/health` must succeed. Use [HTTP](../../connections/http.template.json) and [S3 destination](../../connections/s3-destination.template.json) templates and export their slugs as `RECIPE_HTTP_SOURCE` and `RECIPE_OBJECT_DEST`. Use a dedicated bucket/prefix with write access to the exact key recipes/receipt.bin.
