@@ -8,9 +8,9 @@ Start with the [shared guide](../../GUIDE.md), [full spec](settlement-review.pip
 
 ## Run lineage
 
-![Seven-step settlement review lineage: two sources, normalization, comparison, batch totals and two successful sinks](lineage.jpg)
+![Seven-step settlement review lineage: two sources, normalization, comparison, batch totals and two successful sinks](lineage.png)
 
-Captured from the local Braidplane UI on 18 October 2026 for run `settlement-review-20261018113700-9na9qh`, executed version `642833f5a8fa70eab5f5b75e70d523baf6e70d0c44a2da41fb23bb854a3c2fe3`. This is the historical synthetic rehearsal recorded in [execution.json](execution.json); it does not establish hosted or cloud-provider acceptance.
+Braidplane's lineage component rendered locally from the canonical spec and [archived execution receipt](execution.json) for run `settlement-review-20261018113700-9na9qh` on 2026-10-18. This illustrates the recorded execution; it is not a fresh run or cloud-provider acceptance. [Capture provenance](../../lineage-captures.json) records the source files and renderer revision.
 
 ## Lineage and specification
 

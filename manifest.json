@@ -273,7 +273,7 @@
         "recipes/settlement-review/README.md",
         "recipes/settlement-review/execution.json",
         "recipes/settlement-review/validation.json",
-        "recipes/settlement-review/lineage.jpg"
+        "recipes/settlement-review/lineage.png"
       ],
       "operations": [
         {
