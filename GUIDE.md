@@ -25,7 +25,23 @@ Your principal needs access to the selected organization/project, source/destina
 
 ## Git authoring and target setup
 
-Copy the complete collection into a writable Git repository/branch you control, keeping its relative paths. Commit your adapted specs and operations. Do not edit this public repository directly to store personal endpoints or credentials. A project Git backend is required: `pipeline apply` imports committed Git files, not an arbitrary local path.
+Copy the complete collection into a writable Git repository/branch you control, keeping its relative paths. Copy the six canonical pipeline specs into a separate executable directory before attaching the backend:
+
+```sh
+mkdir -p pipelines
+python3 - <<'COPY'
+import json
+from pathlib import Path
+import shutil
+for recipe in json.loads(Path('manifest.json').read_text())['recipes']:
+    source = Path(recipe['spec'])
+    destination = Path('pipelines') / source.name
+    shutil.copyfile(source, destination)
+    assert destination.read_bytes() == source.read_bytes()
+COPY
+```
+
+Commit the complete collection, executable specs and any adapted operations. The backend imports every supported JSON/YAML file in its configured directory; bindings, fixtures and evidence must remain outside that directory. When adapting a spec, update its executable copy too. Do not edit this public repository directly to store personal endpoints or credentials. A project Git backend is required: `pipeline apply` imports committed Git files, not an arbitrary local path.
 
 If you need a new project/target, choose unused slugs and create them explicitly:
 
@@ -37,13 +53,13 @@ braidplane environment project enable "$BRAIDPLANE_ENVIRONMENT"
 
 If those resources already exist, inspect them and use the correct scope instead of recreating them. A catalog environment and project enablement are separate. Enabling a target does not bind connections or deploy a version.
 
-Copy `connections/git.template.json` outside the checkout, replace all placeholders, and create its writable Git connection. The token file path is resolved relative to the connection JSON unless absolute; keep both outside Git. Attach an existing initialized branch containing the complete `recipes/` tree:
+Copy `connections/git.template.json` outside the checkout, replace all placeholders, and create its writable Git connection. The token file path is resolved relative to the connection JSON unless absolute; keep both outside Git. Attach an existing initialized branch containing the complete collection and `pipelines/` tree:
 
 ```sh
 braidplane data-source create --file /absolute/path/outside-repo/git.connection.json
 export RECIPE_GIT_SOURCE='<your-created-git-source-slug>'
 export RECIPE_BRANCH='<your-committed-writable-branch>'
-braidplane project pipeline-backend set "$BRAIDPLANE_PROJECT"   --mode adopt_existing --data-source "$RECIPE_GIT_SOURCE"   --tracked-branch "$RECIPE_BRANCH" --pipeline-dir recipes
+braidplane project pipeline-backend set "$BRAIDPLANE_PROJECT"   --mode adopt_existing --data-source "$RECIPE_GIT_SOURCE"   --tracked-branch "$RECIPE_BRANCH" --pipeline-dir pipelines
 ```
 
 Adopting existing files preserves Git as authoring authority. Importing a directory is authoritative for that scope; a narrower directory can remove materialized pipelines omitted from it. Keep the full configured directory and use the explicit pipeline filter when qualifying one recipe.
@@ -67,7 +83,7 @@ Choose one slug and its canonical spec:
 export RECIPE_SLUG='http-customer-enrichment' # choose a manifest entry
 export RECIPE_SPEC="$(jq -r --arg s "$RECIPE_SLUG" '.recipes[] | select(.slug == $s) | .spec' manifest.json)"
 braidplane pipeline validate --file "$RECIPE_SPEC" --local
-braidplane pipeline apply --dir recipes --pipeline "$RECIPE_SLUG"
+braidplane pipeline apply --dir pipelines --pipeline "$RECIPE_SLUG"
 ```
 
 This materializes the committed remote version. The local file must match that commit; do not use a local-only edit as if deployed. Bind every ref using the recipe's exact commands and `bindings.template.json`. Bindings belong to this pipeline/environment, not to every pipeline with the same ref name. Then validate the selected target:
